@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的小游戏</title>
+</head>
+<body>
+    <canvas id="app"></canvas>
+    <script src="./index.js"></script>
+    <script>
+        let width = 30, height = 18
+        let game = new Game(width, height, 2)
+        for (let i = 0; i < width; i++) {
+            for (let j = 0; j < height; j++) {
+                game.create('cloud', i, j)
+            }
+        }
+        for (let i = 0; i < width; i++) {
+            game.create('wall', i, 0)
+            game.create('wall', i, height - 1)
+        }
+        for (let i = 0; i < height; i++) {
+            game.create('wall', 0, i)
+            game.create('wall', width - 1, i)
+        }
+        for (let i = width - 2; i > 10; i--) {
+            game.create('wall', i, 3)
+        }
+        for (let i = width - 2; i > 10; i--) {
+            game.create('wall', i, 6)
+        }
+        let fire1 = game.create('cloud', 14, 3)
+        let fire2 = game.create('cloud', 15, 3)
+        fire1.style = 4
+        fire2.style = 4
+        let human = game.create('human', 1, 1)
+        // human.strength = 4
+        human.onMove = function () {
+            if (human.isTouched(fire1) || human.isTouched(fire2)) {
+                game.gameOver()
+            }
+        }
+        let gun = game.create('wall', width - 2, 1)
+        gun.style = 4
+
+        function genBullet () {
+            let bullet = game.create('wall', width - 2, 1)
+            bullet.style = 0
+            let bulletFly = setInterval(() => {
+                bullet.x = bullet.x - 1
+                if (bullet.isTouched(human)) {
+                    game.gameOver()
+                    clearInterval(bulletFly)
+                }
+                if (bullet.x < 0) {
+                    clearInterval(bulletFly)
+                    genBullet()
+                }
+            }, 200)
+        }
+        // genBullet()
+        let bulletFly = setInterval(() => {
+            let bullet = game.create('wall', width - 2, 1)
+            bullet.style = 0
+            bullet.autoMove.left(29)
+            bullet.onMove = function () {
+                if (bullet.isTouched(human)) {
+                    game.gameOver()
+                    clearInterval(bulletFly)
+                }
+            }
+        }, 3000)
+
+        let mushroom = game.create('wall', width - 3, 4)
+        mushroom.autoMove.left(10, true)
+        
+    </script>
+</body>
+</html>
