@@ -16,6 +16,8 @@ class Game {
 
         // public
         this.gravity = true
+
+        // read-only
         this.width = width
         this.height = height
         
@@ -25,7 +27,7 @@ class Game {
     run () {
         this.bindKeyEvent()
         this.drawTimer = setInterval(() => {
-            this.draw()
+            this.drawFrame()
         }, 50)
     }
 
@@ -35,19 +37,29 @@ class Game {
     gridsOff () {
     }
 
-    gameOver (state = 'lose') {
-        if (this.isGG) {
-            return
+    get over () {
+        return {
+            win: () => {
+                if (this.isGG) {
+                    return
+                }
+                this.drawFrame()
+                this.isGG = true
+                this.state = 'win'
+                this.drawWin()
+                clearInterval(this.drawTimer)
+            },
+            lose: () => {
+                if (this.isGG) {
+                    return
+                }
+                this.drawFrame()
+                this.isGG = true
+                this.state = 'lose'
+                this.drawLose()
+                clearInterval(this.drawTimer)
+            }
         }
-        this.draw()
-        this.isGG = true
-        this.state = state
-        if (this.state === 'lose') {
-            this.drawLose()
-        } else {
-            this.drawWin()
-        }
-        clearInterval(this.drawTimer)
     }
 
     clear () {
@@ -56,7 +68,7 @@ class Game {
         this.canvasCtx.fillRect(0, 0, cw, ch)
     }
 
-    draw () {
+    drawFrame () {
         if (this.isGG) {
             return
         }
@@ -67,14 +79,18 @@ class Game {
         ctx.fillStyle = '#fff'
         ctx.fillRect(0, 0, cw, ch)
         this.blocks.forEach(b => {
-            ctx.fillStyle = Pattern[b.style]
-            ctx.fillRect(b.x * bw, ch - bw * b.height - b.y * bw, bw * b.width, bw * b.height)
+            const style = pattern[b.style] || b.style
+            if (typeof style === 'string') {
+                ctx.fillStyle = style
+                ctx.fillRect(b.x * bw, ch - bw * b.height - b.y * bw, bw * b.width, bw * b.height)
+            } else if (Array.isArray(style)) {
+            }
         })
     }
 
     drawWin () {
         this.canvasCtx.fillStyle = 'green'
-        this.canvasCtx.font = '48px Microsoft YaHei'
+        this.canvasCtx.font = this.width + 'px Microsoft YaHei'
         this.canvasCtx.textAlign = 'center'
         this.canvasCtx.textBaseline = 'middle'
         this.canvasCtx.fillText('You Win!', this.canvas.width / 2, this.canvas.height / 2)
@@ -82,7 +98,7 @@ class Game {
 
     drawLose () {
         this.canvasCtx.fillStyle = 'tomato'
-        this.canvasCtx.font = '48px Microsoft YaHei'
+        this.canvasCtx.font = this.width + 'px Microsoft YaHei'
         this.canvasCtx.textAlign = 'center'
         this.canvasCtx.textBaseline = 'middle'
         this.canvasCtx.fillText('Game Over', this.canvas.width / 2, this.canvas.height / 2)
@@ -108,8 +124,9 @@ class Game {
             this.blocks.push(b)
         } else {
             console.error('没有' + blockType + '类型，请检查你的输入')
+            alert('没有' + blockType + '类型，请检查你的输入')
         }
-        this.draw()
+        this.drawFrame()
         return b
     }
 
@@ -145,49 +162,49 @@ class Game {
             const humanBlocks = this.blocks.filter((e) => e.blockType === 'human')
             switch (event.code.toLowerCase()) {
                 case 'arrowleft':
-                    humanBlocks.filter(b => b.left === 'left').forEach(b => {
-                        b.go('left')
+                    humanBlocks.filter(b => b.leftKey === 'left').forEach(b => {
+                        b.go.left()
                     })
                     break
                 case 'keya':
-                    humanBlocks.filter(b => b.left === 'a').forEach(b => {
-                        b.go('left')
+                    humanBlocks.filter(b => b.leftKey === 'a').forEach(b => {
+                        b.go.left()
                     })
                     break
                 case 'arrowright':
-                    humanBlocks.filter(b => b.right === 'right').forEach(b => {
-                        b.go('right')
+                    humanBlocks.filter(b => b.rightKey === 'right').forEach(b => {
+                        b.go.right()
                     })
                     break
                 case 'keyd':
-                    humanBlocks.filter(b => b.right === 'd').forEach(b => {
-                        b.go('right')
+                    humanBlocks.filter(b => b.rightKey === 'd').forEach(b => {
+                        b.go.right()
                     })
                     break
                 case 'keyw':
-                    humanBlocks.filter(b => b.up === 'w').forEach(b => {
-                        b.go('up')
+                    humanBlocks.filter(b => b.upKey === 'w').forEach(b => {
+                        b.go.up()
+                    })
+                    break
+                case 'arrowup':
+                    humanBlocks.filter(b => b.upKey === 'arrowup').forEach(b => {
+                        b.go.up()
+                    })
+                    break
+                case 'arrowdown':
+                    humanBlocks.filter(b => b.downKey === 'arrowdown').forEach(b => {
+                        b.go.down()
+                    })
+                    break
+                case 'keys':
+                    humanBlocks.filter(b => b.downKey === 's').forEach(b => {
+                        b.go.down()
                     })
                     break
                 case 'space':
                     break
-                case 'arrowup':
-                    humanBlocks.filter(b => b.up === 'arrowup').forEach(b => {
-                        b.go('up')
-                    })
-                    break
-                case 'arrowdown':
-                    humanBlocks.filter(b => b.down === 'arrowdown').forEach(b => {
-                        b.go('down')
-                    })
-                    break
-                case 'keys':
-                    humanBlocks.filter(b => b.down === 's').forEach(b => {
-                        b.go('down')
-                    })
-                    break
             }
-            this.draw()
+            this.drawFrame()
         })
     }
 }
@@ -198,8 +215,12 @@ class Block {
         this.width = 1
         this.style = 0
         this.isEntity = true
-        this.blockType = 'block'
         this.onMove
+
+        // read-only
+        this.blockType = 'block'
+        this.lastX = 0
+        this.lastY = 0
 
         // private
         this._x = 0
@@ -207,6 +228,8 @@ class Block {
         this.timers = []
     }
     set x (v) {
+        this.lastX = this._x
+        this.lastY = this._y
         this._x = v
         this.execOnMove()
     }
@@ -214,6 +237,8 @@ class Block {
         return this._x
     }
     set y (v) {
+        this.lastX = this._x
+        this.lastY = this._y
         this._y = v
         this.execOnMove()
     }
@@ -242,8 +267,9 @@ class Block {
         this.timers = []
     }
     get autoMove () {
+        const speedTable = [200, 150, 100, 50]
         return {
-            left: (d, r) => {
+            left: (d, r, s) => {
                 let i = 0
                 const id = setInterval(() => {
                     this.x -= 1
@@ -251,13 +277,13 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.autoMove.right(d, true)
+                            this.autoMove.right(d, true, s)
                         }
                     }
-                }, 300)
+                }, speedTable[s - 1] || 200)
                 this.timers.push(id)
             },
-            right: (d, r) => {
+            right: (d, r, s) => {
                 let i = 0
                 const id = setInterval(() => {
                     this.x += 1
@@ -265,13 +291,13 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.autoMove.left(d, true)
+                            this.autoMove.left(d, true, s)
                         }
                     }
-                }, 300)
+                }, speedTable[s - 1] || 200)
                 this.timers.push(id)
             },
-            up: (d, r) => {
+            up: (d, r, s) => {
                 let i = 0
                 const id = setInterval(() => {
                     this.y += 1
@@ -279,13 +305,13 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.autoMove.down(d, true)
+                            this.autoMove.down(d, true, s)
                         }
                     }
-                }, 300)
+                }, speedTable[s - 1] || 200)
                 this.timers.push(id)
             },
-            down: (d, r) => {
+            down: (d, r, s) => {
                 let i = 0
                 const id = setInterval(() => {
                     this.y -= 1
@@ -293,10 +319,10 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.autoMove.up(d, true)
+                            this.autoMove.up(d, true, s)
                         }
                     }
-                })
+                }, speedTable[s - 1] || 200)
                 this.timers.push(id)
             }
         }
@@ -306,39 +332,46 @@ class Block {
 class Wall extends Block {
     constructor () {
         super()
+        this.style = '#aaa'
+
+        // read-only
         this.blockType = 'wall'
-        this.style = 1
     }
 }
 
 class Cloud extends Block {
     constructor () {
         super()
-        this.blockType = 'cloud'
         this.isEntity = false
-        this.style = 2
+        this.style = '#eee'
+
+        // read-only
+        this.blockType = 'cloud'
     }
 }
 
 class Human extends Block {
     constructor (game) {
         super()
-        this.blockType = 'human'
-        this.left = 'a'
-        this.right = 'd'
-        this.up = 'w'
-        this.down = 's'
+        this.leftKey = 'a'
+        this.rightKey = 'd'
+        this.upKey = 'w'
+        this.downKey = 's'
         this.speed = 1
         this.strength = 3
-        this.style = 3
+        this.style = 'green'
+
+        // read-only
+        this.lastKey = null
+        this.blockType = 'human'
 
         // private
         this.dropping = false
         this.game = game
 
         setInterval(() => {
-            if (!this.dropping) {
-                // if there is not any collision, then drop
+            if (!this.dropping && this.game.gravity) {
+                // if there is no any collision, then drop
                 if (!this.game.isCollision(this)) {
                     this.drop(0)
                 }
@@ -383,19 +416,21 @@ class Human extends Block {
             }
         })
     }
-    go (direction) {
-        switch (direction) {
-            case 'right':
+    get go () {
+        return {
+            right: () => {
                 if (!this.game.isCollision(this, [[1, 0]])) {
                     this.x++
                 }
-                break
-            case 'left':
+                this.lastKey = 'right'
+            },
+            left: () => {
                 if (!this.game.isCollision(this, [[-1, 0]])) {
                     this.x--
                 }
-                break
-            case 'up':
+                this.lastKey = 'left'
+            },
+            up: () => {
                 if (this.game.gravity) {
                     this.drop(1)
                     return
@@ -403,26 +438,20 @@ class Human extends Block {
                 if (!this.game.isCollision(this, [[0, 1]])) {
                     this.y++
                 }
-                break
-            case 'down':
+                this.lastKey = 'up'
+            },
+            down: () => {
                 if (this.game.gravity) {
                     return
                 }
                 if (!this.game.isCollision(this, [[0, -1]])) {
                     this.y--
                 }
-                break
+                this.lastKey = 'down'
+            }
         }
     }
 }
-
-const Pattern = [
-    '#000',
-    '#aaa',
-    '#eee',
-    'green',
-    'tomato'
-]
 
 function S (v0, a, t) {
     return v0 * t + 1 / 2 * a * t * t

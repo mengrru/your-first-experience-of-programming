@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贪吃蛇</title>
+</head>
+<body>
+    <canvas id="app"></canvas>
+    <script src="./index.js"></script>
+    <script src="./pattern.js"></script>
+    <script>
+        let width = 30
+        let height = 40
+        let game = new Game(width, height, 1)
+
+        // 贪吃蛇游戏不需要重力，所以把重力关掉
+        game.gravity = false
+
+        // 生成背景
+        for (let i = 0; i < width; i++) {
+            for (let j = 0; j < height; j++) {
+                game.create('cloud', i, j)
+            }
+        }
+
+        // 生成墙
+        for (let i = 0; i < width; i++) {
+            game.create('wall', i, 0)
+            game.create('wall', i, height - 1)
+        }
+        for (let i = 0; i < height; i++) {
+            game.create('wall', 0, i)
+            game.create('wall', width - 1, i)
+        }
+
+        // 随机函数，可以得到 [2, n - 3] 之间的随机数
+        function rand (n) {
+            return Math.ceil(Math.random() * (n - 4)) + 1
+        }
+
+        // 在随机位置创建一个蛇头
+        let head = game.create('human', rand(width), rand(height))
+
+        // 在随机位置创建一个苹果
+        let apple = game.create('cloud', rand(width), rand(height))
+        apple.style = pattern.tomato
+
+        // 储存蛇的身体
+        let body = []
+
+        // 当蛇头移动时，判断蛇头是否吃到了苹果
+        // 如果吃到了苹果，那么创建一节蛇的身体，并重置苹果的位置
+        // 如果蛇有身体，那么将蛇身体中最远离蛇头的那一节的位置改变为蛇头上次所在的位置
+        head.onMove = function () {
+            if (head.x == apple.x && head.y == apple.y) {
+                let newBody = game.create('cloud', head.x, head.y)
+                newBody.style = pattern.green
+                body.push(newBody)
+                apple.x = rand(width)
+                apple.y = rand(height)
+            }
+            if (body.length != 0) {
+                let tail = body.shift()
+                body.push(tail)
+                tail.x = head.lastX
+                tail.y = head.lastY
+            }
+        }
+
+        // 每隔 500 毫秒（0.5秒）将蛇头向它前进的方向自动移动 1 个单位
+        // 如果蛇头碰到墙，游戏结束
+        let run = setInterval(function () {
+            head.go[head.lastKey || 'right']()
+            if (game.isCollision(head)) {
+                game.over.lose()
+                clearInterval(run)
+            }
+        }, 500)
+    </script>
+</body>
+</html>

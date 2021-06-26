@@ -9,8 +9,10 @@
 <body>
     <canvas id="app"></canvas>
     <script src="./index.js"></script>
+    <script src="./pattern.js"></script>
     <script>
-        let width = 30, height = 18
+        let width = 30
+        let height = 18
         let game = new Game(width, height, 2)
         for (let i = 0; i < width; i++) {
             for (let j = 0; j < height; j++) {
@@ -33,45 +35,29 @@
         }
         let fire1 = game.create('cloud', 14, 3)
         let fire2 = game.create('cloud', 15, 3)
-        fire1.style = 4
-        fire2.style = 4
+        fire1.style = pattern.tomato
+        fire2.style = pattern.tomato
         let human = game.create('human', 1, 1)
         // human.strength = 4
         human.onMove = function () {
             if (human.isTouched(fire1) || human.isTouched(fire2)) {
-                game.gameOver()
+                game.over.lose()
             }
         }
         let gun = game.create('wall', width - 2, 1)
-        gun.style = 4
+        gun.style = pattern.tomato
 
-        function genBullet () {
-            let bullet = game.create('wall', width - 2, 1)
-            bullet.style = 0
-            let bulletFly = setInterval(() => {
-                bullet.x = bullet.x - 1
-                if (bullet.isTouched(human)) {
-                    game.gameOver()
-                    clearInterval(bulletFly)
-                }
-                if (bullet.x < 0) {
-                    clearInterval(bulletFly)
-                    genBullet()
-                }
-            }, 200)
-        }
-        // genBullet()
         let bulletFly = setInterval(() => {
-            let bullet = game.create('wall', width - 2, 1)
-            bullet.style = 0
-            bullet.autoMove.left(29)
+            let bullet = game.create('cloud', width - 2, 1)
+            bullet.style = pattern.black
+            bullet.autoMove.left(29, false, 4)
             bullet.onMove = function () {
                 if (bullet.isTouched(human)) {
-                    game.gameOver()
+                    game.over.lose()
                     clearInterval(bulletFly)
                 }
             }
-        }, 3000)
+        }, 1000)
 
         let mushroom = game.create('wall', width - 3, 4)
         mushroom.autoMove.left(10, true)
