@@ -7,6 +7,106 @@
     <title>绘图板</title>
 </head>
 <body>
-    
+    <div id="app">
+        <div id="picker"></div>
+        <div style="padding-top: 20px; overflow: hidden; padding-bottom: 20px;">
+            <div id="drawing" style="float: left"></div>
+            <div style="margin-left: 20px; float: left;">
+                <div style="margin-bottom: 10px;">你的画笔颜色：</div>
+                <div id="current" style="background-color: #000; width: 60px; height: 60px; border: 1px solid #eee"></div>
+            </div>
+        </div>
+        <button id="btn">生成图案代码</button>
+        <button id="btn-clear">清空图案</button>
+        <div style="margin-top: 20px">
+            <textarea id="pattern-code" cols="40" rows="8"></textarea>
+            <div id="copy-feedback"></div>
+        </div>
+    </div>
+    <script>
+        const $picker = document.getElementById('picker')
+        const $drawing = document.getElementById('drawing')
+        const $btn = document.getElementById('btn')
+        const $current = document.getElementById('current')
+        const $clear = document.getElementById('btn-clear')
+        const $patternCode = document.getElementById('pattern-code')
+        const colors = [
+            'teal', 'tomato', 'navy', 'purple',
+            'green', 'gold', 'olive', 'maroon',
+            'black', 'gray', 'white'
+        ]
+        const transparent = 'rgb(248,248,248)'
+        const pencil = {
+            _color: '#000',
+            get color () {
+                return pencil._color
+            },
+            set color (v) {
+                pencil._color = v
+                $current.style.backgroundColor = v
+            }
+        }
+        for (let i = 0; i < colors.length; i++) {
+            const e = document.createElement('div')
+            e.style.width = '30px'
+            e.style.height = '30px'
+            e.style.display = 'inline-block'
+            e.style.backgroundColor = colors[i]
+            e.style.border = '1px solid #eee'
+            e.onclick = function () {
+                pencil.color = colors[i]
+            }
+            $picker.appendChild(e)
+        }
+        const cWidth = 10, cHeight = 10
+        const $grids = []
+        for (let i = 0; i < cWidth; i++) {
+            const $row = document.createElement('div')
+            $row.style.overflow = 'hidden'
+            for (let j = 0; j < cHeight; j++) {
+                const e = document.createElement('div')
+                $grids.push(e)
+                e.style.width = '30px'
+                e.style.height = '30px'
+                e.style.float = 'left'
+                e.style.backgroundColor = transparent
+                e.style.border = '1px solid #eee'
+                e.dataset.fill = 0
+                e.onclick = function () {
+                    if (e.dataset.fill == 0) {
+                        e.dataset.fill = 1
+                        e.style.backgroundColor = pencil.color
+                    } else {
+                        e.dataset.fill = 0
+                        e.style.backgroundColor = transparent
+                    }
+                }
+                $row.appendChild(e)
+            }
+            $drawing.appendChild($row)
+        }
+        $btn.onclick = function () {
+            const res = []
+            for (const g of $grids) {
+                res.push(g.dataset.fill == 1 ? g.style.backgroundColor : '')
+            }
+            const resStr = JSON.stringify(res)
+            $patternCode.innerHTML = resStr + ','
+            $patternCode.select()
+            document.execCommand('copy')
+            document.getElementById('copy-feedback').innerHTML = '图案代码已复制到你的剪贴板中'
+        }
+        $clear.onclick = function () {
+            const res = confirm('确定清空图案吗？')
+            if (res) {
+                for (const g of $grids) {
+                    g.dataset.fill = 0
+                    g.style.backgroundColor = transparent
+                }
+                $patternCode.innerHTML = ''
+                document.getElementById('copy-feedback').innerHTML = ''
+            }
+        }
+    </script>
 </body>
 </html>

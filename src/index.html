@@ -35,21 +35,22 @@
         }
         let fire1 = game.create('cloud', 14, 3)
         let fire2 = game.create('cloud', 15, 3)
-        fire1.style = pattern.tomato
-        fire2.style = pattern.tomato
+        fire1.style = pattern.fire
+        fire2.style = pattern.fire
         let human = game.create('human', 1, 1)
         // human.strength = 4
+        human.style = 'human'
         human.onMove = function () {
             if (human.isTouched(fire1) || human.isTouched(fire2)) {
                 game.over.lose()
             }
         }
         let gun = game.create('wall', width - 2, 1)
-        gun.style = pattern.tomato
+        gun.style = pattern.gun
 
         let bulletFly = setInterval(() => {
             let bullet = game.create('cloud', width - 2, 1)
-            bullet.style = pattern.black
+            bullet.style = pattern.bullet
             bullet.autoMove.left(29, false, 4)
             bullet.onMove = function () {
                 if (bullet.isTouched(human)) {
@@ -59,8 +60,9 @@
             }
         }, 1000)
 
-        let mushroom = game.create('wall', width - 3, 4)
-        mushroom.autoMove.left(10, true)
+        let turtle = game.create('wall', width - 3, 4)
+        turtle.autoMove.left(10, true)
+        turtle.style = pattern.turtle
         
     </script>
 </body>

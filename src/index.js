@@ -68,6 +68,22 @@ class Game {
         this.canvasCtx.fillRect(0, 0, cw, ch)
     }
 
+    drawPattern (pattern, x, y, w, h) {
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                const c = pattern[j * 10 + i]
+                console.log()
+                if (c.length === 0) {
+                    continue
+                }
+                const uw = 1 * this.scale * w
+                const uh = 1 * this.scale * h
+                this.canvasCtx.fillStyle = c
+                this.canvasCtx.fillRect(x + i * uw, y + j * uh, uw, uh)
+            }
+        }
+    }
+
     drawFrame () {
         if (this.isGG) {
             return
@@ -84,6 +100,7 @@ class Game {
                 ctx.fillStyle = style
                 ctx.fillRect(b.x * bw, ch - bw * b.height - b.y * bw, bw * b.width, bw * b.height)
             } else if (Array.isArray(style)) {
+                this.drawPattern(style, b.x * bw, ch - bw * b.height - b.y * bw, b.width, b.height)
             }
         })
     }
