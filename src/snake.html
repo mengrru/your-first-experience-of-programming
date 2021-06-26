@@ -11,9 +11,9 @@
     <script src="./index.js"></script>
     <script src="./pattern.js"></script>
     <script>
-        let width = 30
-        let height = 40
-        let game = new Game(width, height, 1)
+        let width = 20
+        let height = 30
+        let game = new Game(width, height, 2)
 
         // 贪吃蛇游戏不需要重力，所以把重力关掉
         game.gravity = false
@@ -42,10 +42,11 @@
 
         // 在随机位置创建一个蛇头
         let head = game.create('human', rand(width), rand(height))
+        head.style = pattern.teal
 
         // 在随机位置创建一个苹果
         let apple = game.create('cloud', rand(width), rand(height))
-        apple.style = pattern.tomato
+        apple.style = pattern.apple
 
         // 储存蛇的身体
         let body = []
@@ -56,7 +57,7 @@
         head.onMove = function () {
             if (head.x == apple.x && head.y == apple.y) {
                 let newBody = game.create('cloud', head.x, head.y)
-                newBody.style = pattern.green
+                newBody.style = pattern.teal
                 body.push(newBody)
                 apple.x = rand(width)
                 apple.y = rand(height)

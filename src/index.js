@@ -9,13 +9,13 @@ class Game {
 
         // private
         this.scale = scale
-        this.blocks = []
         this.isGG = false
         this.drawTimer = null
         this.state = null
 
         // public
         this.gravity = true
+        this.blocks = []
 
         // read-only
         this.width = width
@@ -107,7 +107,7 @@ class Game {
 
     drawWin () {
         this.canvasCtx.fillStyle = 'green'
-        this.canvasCtx.font = this.width + 'px Microsoft YaHei'
+        this.canvasCtx.font = this.width * this.scale + 'px Microsoft YaHei'
         this.canvasCtx.textAlign = 'center'
         this.canvasCtx.textBaseline = 'middle'
         this.canvasCtx.fillText('You Win!', this.canvas.width / 2, this.canvas.height / 2)
@@ -115,7 +115,7 @@ class Game {
 
     drawLose () {
         this.canvasCtx.fillStyle = 'tomato'
-        this.canvasCtx.font = this.width + 'px Microsoft YaHei'
+        this.canvasCtx.font = this.width * this.scale + 'px Microsoft YaHei'
         this.canvasCtx.textAlign = 'center'
         this.canvasCtx.textBaseline = 'middle'
         this.canvasCtx.fillText('Game Over', this.canvas.width / 2, this.canvas.height / 2)
@@ -227,17 +227,19 @@ class Game {
 }
 
 class Block {
-    constructor () {
+    constructor (game) {
         this.height = 1
         this.width = 1
         this.style = 0
         this.isEntity = true
         this.onMove
+        this.removed = false
 
         // read-only
         this.blockType = 'block'
         this.lastX = 0
         this.lastY = 0
+        this.game = game
 
         // private
         this._x = 0
@@ -278,6 +280,15 @@ class Block {
             }
         }
         return false
+    }
+    remove () {
+        for (let i = 0; i < this.game.blocks.length; i++) {
+            if (this.game.blocks[i] === this) {
+                this.game.blocks.splice(i, 1)
+                this.removed = true
+                break
+            }
+        }
     }
     stop () {
         this.timers.forEach(e => clearInterval(e))
@@ -347,8 +358,8 @@ class Block {
 }
 
 class Wall extends Block {
-    constructor () {
-        super()
+    constructor (game) {
+        super(game)
         this.style = '#aaa'
 
         // read-only
@@ -357,8 +368,8 @@ class Wall extends Block {
 }
 
 class Cloud extends Block {
-    constructor () {
-        super()
+    constructor (game) {
+        super(game)
         this.isEntity = false
         this.style = '#eee'
 
@@ -369,7 +380,7 @@ class Cloud extends Block {
 
 class Human extends Block {
     constructor (game) {
-        super()
+        super(game)
         this.leftKey = 'a'
         this.rightKey = 'd'
         this.upKey = 'w'
@@ -384,7 +395,6 @@ class Human extends Block {
 
         // private
         this.dropping = false
-        this.game = game
 
         setInterval(() => {
             if (!this.dropping && this.game.gravity) {

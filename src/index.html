@@ -30,21 +30,30 @@
         for (let i = width - 2; i > 10; i--) {
             game.create('wall', i, 3)
         }
-        for (let i = width - 2; i > 10; i--) {
-            game.create('wall', i, 6)
+        for (let i = 0; i < 10; i++) {
+            game.create('wall', i, 7)
         }
+        for (let i = height - 2; i > 10; i--) {
+            game.create('wall', 5, i)
+        }
+        for (let i = 3; i < 6; i++) {
+            game.create('wall', i, 10)
+        }
+        for (let i = 0; i < 3; i++) {
+            game.create('wall', i, 13)
+        }
+        for (let i = width - 2; i > 25; i--) {
+            game.create('wall', i, 13)
+        }
+
         let fire1 = game.create('cloud', 14, 3)
         let fire2 = game.create('cloud', 15, 3)
         fire1.style = pattern.fire
         fire2.style = pattern.fire
+
         let human = game.create('human', 1, 1)
-        // human.strength = 4
         human.style = 'human'
-        human.onMove = function () {
-            if (human.isTouched(fire1) || human.isTouched(fire2)) {
-                game.over.lose()
-            }
-        }
+
         let gun = game.create('wall', width - 2, 1)
         gun.style = pattern.gun
 
@@ -60,10 +69,52 @@
             }
         }, 1000)
 
-        let turtle = game.create('wall', width - 3, 4)
-        turtle.autoMove.left(10, true)
+        let turtle = game.create('wall', width - 4, 4)
+        turtle.autoMove.left(9, true)
         turtle.style = pattern.turtle
+
+        let star = game.create('cloud', width - 2, 4)
+        star.style = pattern.star
+
+        let star2 = game.create('cloud', 2, 14)
+        star2.style = pattern.star
+
+        let star3 = game.create('cloud', 27, 14)
+        star3.style = pattern.star
+
+        let moveStone = game.create('wall', 9, 13)
+        moveStone.autoMove.right(16, true, 1)
+
+        let touched = false
+        moveStone.onMove = function () {
+            if (touched) {
+                human.x = moveStone.x
+                human.y = moveStone.y + 1
+            }
+            if (moveStone.isTouched(human)) {
+                touched = true
+            }
+        }
         
+        human.onMove = function () {
+            if (human.isTouched(fire1) || human.isTouched(fire2) || human.isTouched(turtle)) {
+                game.over.lose()
+            }
+            if (!star.removed && human.isTouched(star)) {
+                human.strength = 5
+                star.remove()
+            }
+            if (!star2.removed && human.isTouched(star2)) {
+                human.strength = 6
+                star2.remove()
+            }
+            if (human.isTouched(star3)) {
+                game.over.win()
+            }
+            if (!human.isTouched(moveStone)) {
+                touched = false
+            }
+        }
     </script>
 </body>
 </html>
