@@ -12,6 +12,7 @@ class Game {
         this.isGG = false
         this.drawTimer = null
         this.state = null
+        this.gridsOn = false
 
         // public
         this.gravity = true
@@ -31,10 +32,40 @@ class Game {
         }, 50)
     }
 
-    gridsOn () {
+    get grids () {
+        return {
+            on: () => {
+                this.gridsOn = true
+            },
+            off: () => {
+                this.gridsOn = false
+            }
+        }
     }
-
-    gridsOff () {
+    drawGrids () {
+        const ctx = this.canvasCtx
+        ctx.strokeStyle = '#666'
+        ctx.lineWidth = 1
+        ctx.fillStyle = '#666'
+        ctx.font = 10 * this.scale / 2 + 'px Microsoft YaHei'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        for (let i = 0; i <= this.width; i++) {
+            const x = i * 10 * this.scale
+            ctx.beginPath()
+            ctx.moveTo(x, 0)
+            ctx.lineTo(x, this.canvas.height)
+            ctx.stroke()
+            this.canvasCtx.fillText(i, x + (10 * this.scale / 2), this.canvas.height - 10 * this.scale / 2)
+        }
+        for (let i = 0; i <= this.height; i++) {
+            const y = i * 10 * this.scale
+            ctx.beginPath()
+            ctx.moveTo(0, y)
+            ctx.lineTo(this.canvas.width, y)
+            ctx.stroke()
+            this.canvasCtx.fillText(this.height - i, 10 * this.scale / 2, y - 10 * this.scale / 2)
+        }
     }
 
     get over () {
@@ -103,6 +134,9 @@ class Game {
                 this.drawPattern(style, b.x * bw, ch - bw * b.height - b.y * bw, b.width, b.height)
             }
         })
+        if (this.gridsOn) {
+            this.drawGrids()
+        }
     }
 
     drawWin () {
@@ -121,15 +155,30 @@ class Game {
         this.canvasCtx.fillText('Game Over', this.canvas.width / 2, this.canvas.height / 2)
     }
 
-    create (blockType, x = 0, y = 0) {
+    get create () {
+        return {
+            human: (x = 0, y = 0) => {
+                return this._create('human', x, y)
+            },
+            wall: (x = 0, y = 0) => {
+                return this._create('wall', x, y)
+            },
+            air: (x = 0, y = 0) => {
+                return this._create('air', x, y)
+            }
+        }
+    }
+
+    _create (blockType, x = 0, y = 0) {
+        // 这里要改成 create.human(x, y)
         let b
         blockType = blockType.toLowerCase()
         switch (blockType) {
             case 'wall':
                 b = new Wall(this)
                 break
-            case 'cloud':
-                b = new Cloud(this)
+            case 'air':
+                b = new Air(this)
                 break
             case 'human':
                 b = new Human(this)
@@ -147,7 +196,7 @@ class Game {
         return b
     }
 
-    isCollision (o, directions=[[1, 0], [-1, 0], [0, 1], [0, -1]]) {
+    iscollision (o, directions=[[1, 0], [-1, 0], [0, 1], [0, -1]]) {
         for (const b of this.blocks) {
             if (b.blockType === 'wall') {
                 for (const d of directions) {
@@ -179,42 +228,42 @@ class Game {
             const humanBlocks = this.blocks.filter((e) => e.blockType === 'human')
             switch (event.code.toLowerCase()) {
                 case 'arrowleft':
-                    humanBlocks.filter(b => b.leftKey === 'left').forEach(b => {
+                    humanBlocks.filter(b => b.key.left === 'left').forEach(b => {
                         b.go.left()
                     })
                     break
                 case 'keya':
-                    humanBlocks.filter(b => b.leftKey === 'a').forEach(b => {
+                    humanBlocks.filter(b => b.key.left === 'a').forEach(b => {
                         b.go.left()
                     })
                     break
                 case 'arrowright':
-                    humanBlocks.filter(b => b.rightKey === 'right').forEach(b => {
+                    humanBlocks.filter(b => b.key.right === 'right').forEach(b => {
                         b.go.right()
                     })
                     break
                 case 'keyd':
-                    humanBlocks.filter(b => b.rightKey === 'd').forEach(b => {
+                    humanBlocks.filter(b => b.key.right === 'd').forEach(b => {
                         b.go.right()
                     })
                     break
                 case 'keyw':
-                    humanBlocks.filter(b => b.upKey === 'w').forEach(b => {
+                    humanBlocks.filter(b => b.key.up === 'w').forEach(b => {
                         b.go.up()
                     })
                     break
                 case 'arrowup':
-                    humanBlocks.filter(b => b.upKey === 'arrowup').forEach(b => {
+                    humanBlocks.filter(b => b.kye.up === 'up').forEach(b => {
                         b.go.up()
                     })
                     break
                 case 'arrowdown':
-                    humanBlocks.filter(b => b.downKey === 'arrowdown').forEach(b => {
+                    humanBlocks.filter(b => b.key.down === 'down').forEach(b => {
                         b.go.down()
                     })
                     break
                 case 'keys':
-                    humanBlocks.filter(b => b.downKey === 's').forEach(b => {
+                    humanBlocks.filter(b => b.key.down === 's').forEach(b => {
                         b.go.down()
                     })
                     break
@@ -232,13 +281,16 @@ class Block {
         this.width = 1
         this.style = 0
         this.isEntity = true
-        this.onMove
         this.removed = false
+        this.move = {
+            before: () => {},
+            after: () => {}
+        }
 
         // read-only
         this.blockType = 'block'
-        this.lastX = 0
-        this.lastY = 0
+        this.lastx = 0
+        this.lasty = 0
         this.game = game
 
         // private
@@ -247,29 +299,26 @@ class Block {
         this.timers = []
     }
     set x (v) {
-        this.lastX = this._x
-        this.lastY = this._y
+        this.move.before()
+        this.lastx = this._x
+        this.lasty = this._y
         this._x = v
-        this.execOnMove()
+        this.move.after()
     }
     get x () {
         return this._x
     }
     set y (v) {
-        this.lastX = this._x
-        this.lastY = this._y
+        this.move.before()
+        this.lastx = this._x
+        this.lasty = this._y
         this._y = v
-        this.execOnMove()
+        this.move.after()
     }
     get y () {
         return this._y
     }
-    execOnMove () {
-        if (typeof this.onMove === 'function') {
-            this.onMove()
-        }
-    }
-    isTouched (o) {
+    istouched (o) {
         const directions=[[0.2, 0], [-0.2, 0], [0, 0.2], [0, -0.2]]
         for (const d of directions) {
             const nx = d[0] + o.x
@@ -278,6 +327,15 @@ class Block {
                 && (ny + o.height > this.y && ny < (this.y + this.height))) {
                     return true
             }
+        }
+        return false
+    }
+    isoverlapping (o) {
+        const nx = o.x
+        const ny = o.y
+        if ((nx + o.width) > this.x && nx < (this.x + this.width)
+            && (ny + o.height > this.y && ny < (this.y + this.height))) {
+                return true
         }
         return false
     }
@@ -294,7 +352,7 @@ class Block {
         this.timers.forEach(e => clearInterval(e))
         this.timers = []
     }
-    get autoMove () {
+    get automove () {
         const speedTable = [200, 150, 100, 50]
         return {
             left: (d, r, s) => {
@@ -305,7 +363,7 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.autoMove.right(d, true, s)
+                            this.automove.right(d, true, s)
                         }
                     }
                 }, speedTable[s - 1] || 200)
@@ -319,7 +377,7 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.autoMove.left(d, true, s)
+                            this.automove.left(d, true, s)
                         }
                     }
                 }, speedTable[s - 1] || 200)
@@ -333,7 +391,7 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.autoMove.down(d, true, s)
+                            this.automove.down(d, true, s)
                         }
                     }
                 }, speedTable[s - 1] || 200)
@@ -347,7 +405,7 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.autoMove.up(d, true, s)
+                            this.automove.up(d, true, s)
                         }
                     }
                 }, speedTable[s - 1] || 200)
@@ -367,30 +425,32 @@ class Wall extends Block {
     }
 }
 
-class Cloud extends Block {
+class Air extends Block {
     constructor (game) {
         super(game)
         this.isEntity = false
         this.style = '#eee'
 
         // read-only
-        this.blockType = 'cloud'
+        this.blockType = 'air'
     }
 }
 
 class Human extends Block {
     constructor (game) {
         super(game)
-        this.leftKey = 'a'
-        this.rightKey = 'd'
-        this.upKey = 'w'
-        this.downKey = 's'
         this.speed = 1
         this.strength = 3
         this.style = 'green'
+        this.key = {
+            left: 'a',
+            right: 'd',
+            up: 'w',
+            down: 's'
+        }
 
         // read-only
-        this.lastKey = null
+        this.lastmove = null
         this.blockType = 'human'
 
         // private
@@ -399,7 +459,7 @@ class Human extends Block {
         setInterval(() => {
             if (!this.dropping && this.game.gravity) {
                 // if there is no any collision, then drop
-                if (!this.game.isCollision(this)) {
+                if (!this.game.iscollision(this)) {
                     this.drop(0)
                 }
             }
@@ -425,7 +485,7 @@ class Human extends Block {
             let collisionDirection = curV > 0
                 ? [[0, 0.1]] : [[0, -0.1]]
 
-            if (!this.game.isCollision(this, collisionDirection)) {
+            if (!this.game.iscollision(this, collisionDirection)) {
                 this.y = newY
                 t += 0.1
             } else if (curV > 0) {
@@ -446,35 +506,35 @@ class Human extends Block {
     get go () {
         return {
             right: () => {
-                if (!this.game.isCollision(this, [[1, 0]])) {
+                if (!this.game.iscollision(this, [[1, 0]])) {
                     this.x++
                 }
-                this.lastKey = 'right'
+                this.lastmove = 'right'
             },
             left: () => {
-                if (!this.game.isCollision(this, [[-1, 0]])) {
+                if (!this.game.iscollision(this, [[-1, 0]])) {
                     this.x--
                 }
-                this.lastKey = 'left'
+                this.lastmove = 'left'
             },
             up: () => {
                 if (this.game.gravity) {
                     this.drop(1)
                     return
                 }
-                if (!this.game.isCollision(this, [[0, 1]])) {
+                if (!this.game.iscollision(this, [[0, 1]])) {
                     this.y++
                 }
-                this.lastKey = 'up'
+                this.lastmove = 'up'
             },
             down: () => {
                 if (this.game.gravity) {
                     return
                 }
-                if (!this.game.isCollision(this, [[0, -1]])) {
+                if (!this.game.iscollision(this, [[0, -1]])) {
                     this.y--
                 }
-                this.lastKey = 'down'
+                this.lastmove = 'down'
             }
         }
     }

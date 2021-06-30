@@ -104,15 +104,14 @@
         for (let i = 0; i < len; i++) {
             let [x, y] = NtoXY(i)
             let gridData = mazeData[i]
-            let grid = gridData[1] == 'red' ? game.create('cloud', y, x) : game.create('wall', y, x)
+            let grid = gridData[1] == 'red' ? game.create.air(y, x) : game.create.wall(y, x)
             grid.style = gridData[1] == 'red' ? pattern.eee : pattern.aaa
         }
-        let human = game.create('human', origin[0], origin[1])
-        let destination = [width - 2, height - 2]
-        let d = game.create('cloud', destination[0], destination[1])
-        d.style = pattern.star
-        human.onMove = function () {
-            if (human.x == d.x && human.y == d.y) {
+        let human = game.create.human(origin[0], origin[1])
+        let destination = game.create.air(width - 2, height - 2)
+        destination.style = pattern.star
+        human.move.after = function () {
+            if (human.x == destination.x && human.y == destination.y) {
                 game.over.win()
             }
         }
