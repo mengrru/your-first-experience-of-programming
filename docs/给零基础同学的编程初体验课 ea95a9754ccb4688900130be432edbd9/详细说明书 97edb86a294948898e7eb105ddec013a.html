@@ -1,0 +1,664 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>详细说明书</title>
+<link rel="stylesheet" href="../statics/default.min.css">
+<style>code {font-family: ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace}</style>
+<script src="../statics/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="97edb86a-2949-4889-8e7e-b105ddec013a" class="page sans"><header><div class="page-header-icon undefined"><span class="icon">📄</span></div><h1 class="page-title">详细说明书</h1></header><div class="page-body"><nav id="5ea3cb57-cfb1-4f29-9ba5-479d3a017c5e" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#60bcfad0-3d2e-428e-90d9-9c0cec6fc954">Game</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#312a2c62-5087-4d9d-ba0f-5e83ab2e9ae1">属性</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dfad3df1-1ae1-4cef-9994-e023bc45eeaf">动作</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#e82e05ac-69bc-47b9-a21d-099c8c780f19">human 积木</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1ea0f4fc-9de4-456b-a3af-7690ce20d4fc">属性</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#baf1f552-6a33-4f4d-98ed-d87f17865319">动作</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#794f3825-5206-4e63-8c86-532cef6bca95">wall 积木</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#dfae21d1-21e3-4d72-a6e5-8aadfd035701">属性</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1fb156a7-ceb8-4d5e-a3ed-935377827c77">air 积木</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#89944a0d-7b94-415e-b99f-85562105a19d">属性</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#c06e0d77-3dbd-405b-8278-9abddb2924ae">三种类型的积木都有的</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#5660a360-49e3-466c-89b4-0df473f00d14">属性</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#e437011b-5ff0-4a10-a595-8bc6b4fb4d92">动作</a></div></nav><h2 id="60bcfad0-3d2e-428e-90d9-9c0cec6fc954" class="">Game</h2><pre id="cdebec61-db5a-454f-aad8-9edde0e929f5" class="code"><code>let game = new Game(&lt;宽度&gt;, &lt;高度&gt;, &lt;放大倍数&gt;)</code></pre><pre id="f47c705e-81b1-4195-b81a-32e2466b14a1" class="code"><code>let game = new Game(30, 18, 1)</code></pre><p id="5e8cc90f-773f-4a25-96a9-cd7bcb391526" class="">由上方代码生成的游戏界面的坐标系：</p><figure id="2361500c-140b-44bd-8f98-0b0869b70d74" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/grids.PNG"><img style="width:614px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/grids.PNG"/></a></figure><h3 id="312a2c62-5087-4d9d-ba0f-5e83ab2e9ae1" class="">属性</h3><p id="6fdb2e2c-652e-4298-a29c-cc91739d48cd" class=""><strong>gravity</strong></p><p id="5e084577-3fe7-4f3a-8836-212cc0498df9" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="28d12193-662d-49af-b305-c8912a076cd5" class="">设置游戏是否需要重力</p><pre id="d2fb17d7-3f78-43b9-9d8f-8a617f614b23" class="code"><code>game.gravity = true // 打开重力
+game.gravity = false // 关闭重力</code></pre><p id="788d777e-cc2a-4578-bbb3-af5f30324eb1" class=""><strong>width</strong></p><p id="ad2d8990-94c3-4b05-ac0d-613bad5acb46" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-red_background">不可修改</mark></p><p id="4aa6bc33-e062-4a0e-aeb7-68d40490ac25" class="">游戏界面宽度</p><pre id="3a2c0b9c-ae59-440e-85b7-0aae0209c2a2" class="code"><code>let w = game.width</code></pre><p id="de2d6fec-d843-4bb9-88dd-56f3a4b54a54" class=""><strong>height</strong></p><p id="331376dc-7989-40c0-a51c-605bbf3c0468" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-red_background">不可修改</mark></p><p id="cb773ca8-e0cf-4403-8c76-439286e5927a" class="">游戏界面高度</p><pre id="88c54db0-bd42-4d9a-811d-13697cad7295" class="code"><code>let h = game.height</code></pre><h3 id="dfad3df1-1ae1-4cef-9994-e023bc45eeaf" class="">动作</h3><p id="78471a45-8125-40d4-b7ed-8b6c291bbfba" class=""><strong>create.human</strong></p><p id="16ec9af0-fd46-4ce8-aae0-354cc496c0f9" class="">创建一个可被控制的积木</p><pre id="8920696a-36d1-4a8b-b505-521ecbc26ff1" class="code"><code>game.create.human(1, 1)
+// 在位置 x = 1, y = 1 创建一个可被控制的方块</code></pre><p id="e7f7a015-3c2e-48fd-890d-84ef18f3ab31" class=""><strong>create.wall</strong></p><p id="bd251a81-8d46-47b2-b134-8896fad4af87" class="">创建一个可被碰撞的积木</p><pre id="ac372969-19da-417e-b2be-b5f6421813eb" class="code"><code>game.create.wall(1, 1)
+// 在位置 x = 1, y = 1 创建一个可被碰撞的方块</code></pre><p id="b717a80a-78a8-47e1-a4fb-6b19803bc9a7" class=""><strong>create.air</strong></p><p id="7299359f-a23e-41fe-ab41-23caf6a67582" class="">创建一个不会被碰撞的积木</p><pre id="9ed34787-93fa-4665-b7b3-2ce0dfa8fa74" class="code"><code>game.create.air(1, 1)
+// 在位置 x = 1, y = 1 创建一个不会被碰撞的方块</code></pre><p id="cca1d9b5-ae20-4ca1-b709-496364029f22" class=""><strong>grids.on</strong></p><p id="b5883bf4-b79c-481f-8f35-970b14c156f3" class="">打开辅助网格</p><pre id="92dcdec4-1fb2-4cc3-834b-71e283f5eea7" class="code"><code>game.grids.on()</code></pre><p id="bfb2fb5b-c81b-409a-9328-750621cebc91" class=""><strong>grids.off</strong></p><p id="c878e560-9620-43b8-b2d1-8d2c1804cfaa" class="">关闭辅助网格</p><pre id="a2622655-7006-4385-a0a8-9335c496b46f" class="code"><code>game.grids.off()</code></pre><p id="ce79713d-0f9b-4588-ac76-8e5d61b07fd9" class=""><strong>over.win</strong></p><p id="6350dfa7-be98-46ae-9951-121496f40353" class="">将游戏结束，并宣布玩家胜利</p><pre id="3a8b4f95-d577-400f-bd75-4f318353f4ec" class="code"><code>game.over.win()</code></pre><p id="5761be1d-1cbd-4856-b4a2-0c7131e7a47d" class=""><strong>over.lose</strong></p><p id="52182c56-94d4-402f-ba0a-fd7420d800de" class="">将游戏结束，并宣布玩家失败</p><pre id="d3deaf5d-e927-4aee-b697-b51eb25f2e9e" class="code"><code>game.over.lose()</code></pre><p id="933d98de-354c-4fc0-917d-1afdfed615d7" class=""><strong>iscollision</strong></p><p id="7ebcb64c-6f1b-4802-a669-5aef5bfb1f04" class="">判断某个方块是否与其它 wall 类型的方块产生碰撞</p><pre id="38d78614-cb1e-449c-ad39-39edcfec5a7f" class="code"><code>let human = game.create.human(1, 1)
+let result = game.iscollision(human)
+// 判断 human 是否与其它 wall 类型的方块产生了碰撞
+// result 是 true 或 false</code></pre><h2 id="e82e05ac-69bc-47b9-a21d-099c8c780f19" class="">human 积木</h2><pre id="5326e3f2-a40a-4180-abe5-08af88df089f" class="code"><code>let human = game.create.human(&lt;位置x&gt;, &lt;位置y&gt;)</code></pre><h3 id="1ea0f4fc-9de4-456b-a3af-7690ce20d4fc" class="">属性</h3><p id="11e91431-dbfd-4475-86bc-29de4a84e488" class=""><strong>blocktype</strong></p><p id="ff7e68c5-0da5-4347-b8b8-9eb10bbbedce" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-red_background">不可修改</mark></p><p id="a7651328-937e-48f6-8450-c9a6d0ca3b23" class="">标识该积木的类型，在 human 积木里，它是 &#x27;human&#x27;</p><pre id="e818d8a3-5e60-462e-b4a2-e94ca6126396" class="code"><code>let type = human.blocktype
+// type == &#x27;human&#x27;</code></pre><p id="c0170f42-0c59-4147-8481-25f42df0da21" class=""><strong>key.left</strong></p><p id="f8c98ad3-e2a9-43c9-941f-400fa35879a1" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="c3bf0945-cbe2-44b4-82bc-51ce3dbb6a82" class="">设置积木向左移动的触发按键，默认为 &#x27;a&#x27;，还可以是 &#x27;left&#x27;</p><pre id="97f9ed2a-6f3b-4b22-8e26-303b3916d13b" class="code"><code>human.key.left = &#x27;left&#x27; // 箭头左按键</code></pre><p id="1f9d03ca-65fa-460c-b014-9c962e842fdc" class=""><strong>key.right</strong></p><p id="9ec8f724-e9a0-456c-8aae-02cf8f22e915" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="6a1239fc-62be-47ca-a950-0bd529c9be6b" class="">设置积木向右移动的触发按键，默认为 &#x27;d&#x27;，还可以是 &#x27;right&#x27;</p><pre id="8c228162-91db-4fd3-9baa-e2919057f41c" class="code"><code>human.key.right = &#x27;right&#x27; // 箭头右按键</code></pre><p id="c8245d14-9a8f-4e67-b81f-4cf9704eeb2d" class=""><strong>key.up</strong></p><p id="e2a3f201-cde6-4c54-b2e4-c230cf40fb95" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="9c2d51cd-5b8e-48c2-b1e2-34081b12b9e1" class="">设置积木向上移动的触发按键，默认为 &#x27;w&#x27;，还可以是 &#x27;up&#x27;</p><pre id="3f785e8a-fcba-4191-a533-1352b5a8ffb6" class="code"><code>human.key.up = &#x27;up&#x27; // 箭头上按键</code></pre><p id="51e9e87d-07ec-4b53-bc87-b5f6ce0df682" class=""><strong>key.down</strong></p><p id="ea4551ec-7561-496b-94dd-59e5ba1d07a0" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="2a8e631f-0bcb-4f1f-98a0-f538ed5e5427" class="">设置积木向下移动的触发按键，默认为 &#x27;s&#x27;，还可以是 &#x27;down&#x27;</p><pre id="524cf1de-9278-48f1-b88d-5bddd492661d" class="code"><code>human.key.down = &#x27;down&#x27; // 箭头下按键</code></pre><p id="ea02831f-13c8-41e5-939c-43aac5f21392" class=""><strong>strength</strong></p><p id="b721a40e-d1da-48ba-9e2c-03b8a99bbe42" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="ed8de615-7a9b-4e55-959b-c2439b392081" class="">设置该积木块的跳跃高度，范围为 1~8，默认为3</p><pre id="d6a304ea-a9ff-40f0-9c15-9691be743e98" class="code"><code>human.strength = 4</code></pre><p id="13920266-8f5d-4939-a2ca-c38a66ecf4ea" class=""><strong>lastmove</strong></p><p id="60490169-98ec-4e3e-a933-f78575e0da23" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-red_background">不可修改</mark></p><p id="947e4dc9-3a7b-49bc-8bed-ff53463e7ad6" class="">获得该积木块上次运动的方向，可能得到 &#x27;right&#x27; 或 &#x27;left&#x27; 或 &#x27;up&#x27; 或 &#x27;down&#x27;</p><pre id="559e6730-f891-4dbb-88c6-75766406655e" class="code"><code>let last = human.lastmove</code></pre><h3 id="baf1f552-6a33-4f4d-98ed-d87f17865319" class="">动作</h3><p id="62c206ac-c2a3-45a8-aa90-9062c6971e36" class=""><strong>go.left</strong></p><p id="9aa1845e-51ec-4ada-8264-5c41df0e80f0" class="">使积木向左移动一格</p><pre id="defa338e-ae37-4bbf-b948-31e38948d1e0" class="code"><code>human.go.left()</code></pre><p id="acea299a-66e6-4ed5-9894-146be4ada405" class=""><strong>go.right</strong></p><p id="2a2b0a13-d41d-4107-b3c5-7488aa5ff42c" class="">使积木向右移动一格</p><pre id="ee1c2970-a4c6-413a-ba4d-15d80924b3dc" class="code"><code>human.go.right()</code></pre><p id="e4cde13e-586e-4d72-961e-1843642de615" class=""><strong>go.up</strong></p><p id="f8a171d5-012e-4400-8194-ade234acf4d1" class="">如果重力打开，使积木跳跃一次；如果重力关闭，使积木向上移动一格</p><pre id="95b8672b-fb0e-4282-8a7b-31ae2707472e" class="code"><code>human.go.up()</code></pre><p id="6190346c-153a-4190-896b-2f3042b5063a" class=""><strong>go.down</strong></p><p id="ac71e70e-17b7-4042-a981-2a4e875d6270" class="">如果重力打开，什么都不发生；如果重力关闭，使积木向下移动一格</p><pre id="6d0e52b8-90fa-44cf-bdf6-a15e647ca259" class="code"><code>human.go.down()</code></pre><h2 id="794f3825-5206-4e63-8c86-532cef6bca95" class="">wall 积木</h2><pre id="1a88fbcf-660f-4b45-b257-6db8289f1e6e" class="code"><code>let wall = game.create.wall(&lt;位置x&gt;, &lt;位置y&gt;)</code></pre><h3 id="dfae21d1-21e3-4d72-a6e5-8aadfd035701" class="">属性</h3><p id="165b531d-9d43-46ca-9b66-8c99fd9f9ec2" class=""><strong>blocktype</strong></p><p id="4ba26708-abf1-4115-abb2-093dcf307112" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-red_background">不可修改</mark></p><p id="0fab6724-539c-454d-84f0-0491412e70f3" class="">标识该积木的类型，在 wall 积木里，它是 &#x27;wall&#x27;</p><pre id="d5418d00-9460-4aa0-8fd9-a5e57c7dde13" class="code"><code>let type = wall.blocktype
+// type == &#x27;wall&#x27;</code></pre><h2 id="1fb156a7-ceb8-4d5e-a3ed-935377827c77" class="">air 积木</h2><pre id="2a7d0edb-dc5d-486c-acf5-3849bdb8e64d" class="code"><code>let air = game.create.air(&lt;位置x&gt;, &lt;位置y&gt;)</code></pre><h3 id="89944a0d-7b94-415e-b99f-85562105a19d" class="">属性</h3><p id="1d225339-cfcd-4a7b-9074-6ff1e3b960f2" class=""><strong>blocktype</strong></p><p id="1c4ec8f6-9fa9-42ae-971c-646717204d72" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-red_background">不可修改</mark></p><p id="aeab98cf-0b34-4285-a52a-aa2227bb850b" class="">标识该积木的类型，在 air 积木里，它是 &#x27;air&#x27;</p><pre id="596729fb-1037-4f90-9652-ee1d7c85e92f" class="code"><code>let type = wall.blocktype
+// type == &#x27;air&#x27;</code></pre><h2 id="c06e0d77-3dbd-405b-8278-9abddb2924ae" class="">三种类型的积木都有的</h2><pre id="f53b6055-a49e-4cdd-8c04-e891175eef59" class="code"><code>let block = game.create.human(1, 1)</code></pre><h3 id="5660a360-49e3-466c-89b4-0df473f00d14" class="">属性</h3><p id="3a805723-8541-41f5-83ec-34ef059f7b91" class=""><strong>x</strong></p><p id="6b75229e-3929-43a1-9764-4d65a852c728" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="a582ffae-4d61-4b06-a544-719695e86bbe" class="">表示积木的位置的横坐标</p><pre id="979c6ace-69ca-490c-bd68-267865484af2" class="code"><code>block.x = 2</code></pre><p id="75ca2d59-a636-42f1-91df-565e83c57cef" class=""><strong>y</strong></p><p id="c53ed720-e68a-4d0e-8efd-8bc6311c11d9" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="11313fd3-e451-4619-86d6-6272a1b6bd23" class="">表示积木的位置的纵坐标</p><pre id="900f272d-a929-451c-ae77-f37ddb6e4723" class="code"><code>block.y = 2</code></pre><p id="4a90e73a-9eab-44b6-a3d6-4effd25c8f06" class=""><strong>lastx</strong></p><p id="02299929-035e-4bdf-8ba7-76f5ebee1a89" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-red_background">不可修改</mark></p><p id="549a2818-15d7-4995-8483-0232cee3f5b7" class="">表示积木上次停留位置的横坐标</p><pre id="3841b9c5-061c-452a-b801-91361d94608b" class="code"><code>let lastx = block.lastx</code></pre><p id="eefc313c-33da-42eb-843d-1e9af5244b41" class=""><strong>lasty</strong></p><p id="b11b07e2-bf3d-48bb-82cd-d7aad51946c2" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-red_background">不可修改</mark></p><p id="d009614f-3e64-4712-aa5e-c1378fbb14c7" class="">表示积木上次停留位置的纵坐标</p><pre id="841cc26d-3099-4ff0-84bc-d19915404884" class="code"><code>let lasty = block.lasty</code></pre><p id="61394e72-748d-4a7b-8348-fd505c8eaeed" class=""><strong>style</strong></p><p id="ea7d899e-ef67-459a-8eef-6316e18913d3" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="8876d50c-8c6f-49a0-8986-a7e9bbc3704e" class="">指定积木的样式</p><pre id="cc546711-9aa6-40b6-9885-52d98e4effe7" class="code"><code>block.style = pattern.human</code></pre><p id="ff280959-adf0-4849-ad2f-3b530e0dbe36" class=""><strong>removed</strong></p><p id="f5b97834-df32-4fbb-8fae-349cbebf2cf2" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-red_background">不可修改</mark></p><p id="a86c513f-9d47-40a8-b65d-3ef31752adc2" class="">标识积木是否已被移除</p><pre id="9fdc740c-bfec-4148-a935-b2b0104c62fe" class="code"><code>let block = game.create.air(0, 0)
+block.removed // false
+block.remove()
+block.removed // true</code></pre><p id="05882fd0-8b72-4b87-9799-30da0d7aff61" class=""><strong>move.before</strong></p><p id="e3bed3b3-2247-4207-b88f-c37bee08aead" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="5bcb0e13-72c8-4668-94f3-003b879bebb5" class="">指定积木在运动之前要执行的动作</p><pre id="ad0547d0-475e-4ca7-b99f-9d2935342a3b" class="code"><code>block.move.before = function () {
+	// 要执行的代码
+}</code></pre><p id="5d30207d-349c-40c8-8e22-a27c8e2a1e05" class=""><strong>move.after</strong></p><p id="1a514adb-c41a-48d3-8e46-c6ee6cf9107f" class=""><mark class="highlight-teal_background">可以读取</mark> <mark class="highlight-teal_background">可以修改</mark></p><p id="8b750010-8cdb-43ae-a665-5ea111c8ad78" class="">指定积木在运动之后要执行的动作</p><pre id="57d43244-c74c-45cc-8bac-50d548a51246" class="code"><code>block.move.after = function () {
+	// 要执行的代码
+}</code></pre><h3 id="e437011b-5ff0-4a10-a595-8bc6b4fb4d92" class="">动作</h3><p id="afcf06e2-b891-438f-acb1-72cb397b9a4f" class=""><strong>stop</strong></p><p id="8ef945da-f2a7-4d29-9900-c89d250d0fe9" class="">使积木停止运动</p><pre id="bfcaafb6-b707-4207-a1a1-f3473aaf8a1b" class="code"><code>block.stop()</code></pre><p id="593bcb67-2de7-4bde-8055-05aaa5c549a7" class=""><strong>remove</strong></p><p id="88e771a2-a95e-44d7-8d3d-6d3968feb9f0" class="">在游戏界面中移除该积木</p><pre id="c23800fa-292f-4f94-aa95-c2d54b1566bd" class="code"><code>block.remove()</code></pre><p id="3b80a24a-1029-4f53-aad4-31ef3a784dae" class=""><strong>istouched</strong></p><p id="17ca56be-1fb6-4127-999a-cc06b397cfc9" class="">判断积木是否与其他积木在前或后或左或右产生接触</p><pre id="796e241b-9dcb-416e-8a16-4db27e2fc1ee" class="code"><code>let block = game.create.human(1, 1)
+let block2 = game.create.wall(2, 2)
+block.istouched(block2) // false
+block2.x = 1
+block.istouched(block2) // true</code></pre><p id="e23d53dd-4ad1-443a-8034-e7018ba3a357" class=""><strong>isoverlapping</strong></p><p id="2113a1dd-1ca9-4657-bbb2-92d6502ec4e9" class="">判断积木是否与其他积木产生重叠</p><pre id="244eae2a-2d07-406e-861e-504cf55d9eef" class="code"><code>let block = game.create.human(1, 1)
+let block2 = game.create.wall(1, 1)
+block.isoverlapping(block2) // ture
+block2.x = 2
+block.isoverlapping(block2) // false</code></pre><p id="860e229c-7ef3-4ad0-bc15-9c561dfd57ed" class=""><strong>automove.left</strong></p><p id="6365b40c-97ab-4c09-a941-cfbf9b540e4a" class="">使积木向左自动移动</p><pre id="7960411d-4838-4291-9428-9c07ef815b01" class="code"><code>block.automove.left(10, 1)
+// 让积木以速度1自动向左移动10个格
+// 速度有4档，分别是 1，2，3，4
+
+block.automove.left(10, 3, true)
+// 让积木以速度3，先向左移动10个格，再返回，如此往复</code></pre><p id="e81afcf6-f231-4d2c-b4fc-da6f6aa51685" class=""><strong>automove.right</strong></p><p id="795b5140-47df-4fb5-9a93-748377d723f1" class="">使积木向右自动移动</p><p id="692944b1-8205-4c42-a59e-16ddd448ff12" class=""><strong>automove.up</strong></p><p id="9af8e0fa-eaf9-434d-813b-5fae622a9e2f" class="">使积木向上自动移动</p><p id="b4440673-d3b3-40bb-9029-d5d1d9e75890" class=""><strong>automove.down</strong></p><p id="65fa8094-3fc5-4788-8ff5-35fe8393dbd9" class="">使积木向下自动移动</p></div></article></body></html>
