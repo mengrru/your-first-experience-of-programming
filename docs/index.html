@@ -1,0 +1,821 @@
+<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<title>给零基础同学的编程初体验课</title>
+<link rel="stylesheet" href="./statics/default.min.css">
+<style>code {font-family: ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace}</style>
+<script src="./statics/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+<style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="ea95a975-4ccb-4688-9001-30be432edbd9" class="page sans"><header><h1 class="page-title">给零基础同学的编程初体验课</h1></header><div class="page-body"><nav id="40e4905a-f8aa-44f1-a58e-9a683e994e1c" class="block-color-gray table_of_contents"><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#7f4e7bd2-3e35-40b6-86c8-67f944184021">欢迎！</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#72fd73f4-9ce5-4d37-b594-909fe10c8a7a">准备工作</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#d840debb-6e4a-46af-a6c4-8342e4a0a140">1. 下载压缩文件并解压</a></div><div class="table_of_contents-item table_of_contents-indent-1"><a class="table_of_contents-link" href="#1d2b5566-e5c3-4c49-ab8c-440f8232bf75">2. 同时用浏览器和记事本打开文件 my-game.html</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#1f4b8838-3786-418c-be9f-d785bc6e7046">开始</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#b7321535-95f0-4121-8d0e-d6a7a336c6b0">来几堵墙</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a38710f8-e00d-4e6c-96d4-4f12e099e360">星星和火</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#3bf18f49-fff4-41d1-bdda-7f1d33a40016">让子弹飞</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#20718991-db4c-40be-ab64-3b1595d2a6f7">花式领便当</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#79f6a157-6639-4e87-beb2-122a3da6aa66">欲乘石头归去</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#15a80fd2-e985-456d-8ab8-3b2003167e08">就这？</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#ecc3f69f-b7f8-4aa1-b258-414f14ddf27f">恭喜你！</a></div><div class="table_of_contents-item table_of_contents-indent-0"><a class="table_of_contents-link" href="#a50bff18-ea6a-47f2-be0b-a850f63bf91b">附录</a></div></nav><h2 id="7f4e7bd2-3e35-40b6-86c8-67f944184021" class="">欢迎！</h2><p id="f2f209d3-e97a-42a5-bc63-0cbc5381c93d" class="">本项目旨在为从未接触过编程且对编程感兴趣的同学提供零门槛的编程初体验，通过对本项目的学习，最终你可以用自己的双手编写一个<a href="http://fp.mengru.space/src/example.html">这样的小游戏</a>：</p><figure id="3c71fb45-ae4d-411c-b9b6-0bc8785f2f3d" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/example-game.gif"><img src="https://rru.oss-cn-beijing.aliyuncs.com/fp/example-game.gif"/></a></figure><p id="41e25537-8ce6-4b81-b6e4-42d6a94f3002" class="">不论你是小学生、中学生、大学生还是社畜或是已经退休，你不需要具备任何相关的基础知识，只要你有一台电脑，电脑里有一个可以浏览网页的浏览器，就可以开始学习。</p><p id="1f2f6358-c466-4cdb-93e1-cbf610f3646a" class="">整个学习时长在五小时以内。下面我们开始吧！</p><h2 id="72fd73f4-9ce5-4d37-b594-909fe10c8a7a" class="">准备工作</h2><p id="e5a727f6-6e9c-4b56-9f31-1ec48d093694" class="">首先，确保你有一台电脑。电脑的操作系统可以是 Windows 、MacOS或 Linux，总之，只要里面有浏览器和记事本（文本编辑器）就可以。</p><h3 id="d840debb-6e4a-46af-a6c4-8342e4a0a140" class="">1. 下载压缩文件并解压</h3><p id="9029c91d-c9d1-4272-8fac-e9d6e4587695" class=""><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/your-first-experience-of-programming-main.zip">点击这里</a>下载压缩文件 <mark class="highlight-teal_background">your-first-experience-of-programming-main.zip</mark> 到桌面，然后右键点击该压缩文件，选择 <mark class="highlight-teal_background">解压到当前文件夹</mark>。</p><p id="700bd54f-54a3-49b7-b927-5265050cf426" class="">此时桌面上会出现一个名为 <mark class="highlight-teal_background">your-first-experience-of-programming-main</mark> 的文件夹，双击打开这个文件夹，你会看到里面大概长这样：</p><figure id="1398f9c9-c0a5-4475-8532-4737cc12d733" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/0.1.PNG"><img style="width:151px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/0.1.PNG"/></a></figure><h3 id="1d2b5566-e5c3-4c49-ab8c-440f8232bf75" class="">2. 同时用浏览器和记事本打开文件 my-game.html</h3><p id="a0008ccb-4e82-4035-86cb-c7b7c0801b7b" class="">双击 <mark class="highlight-teal_background">my-game.html</mark> ，此时应该会默认由浏览器打开。如果没有，请右键单击它，然后在菜单中选择 <mark class="highlight-teal_background">打开方式</mark> ，然后选择你使用的浏览器。</p><p id="96b0ea11-2b48-4c9b-b46d-003e81b9fe53" class="">用浏览器打开 <mark class="highlight-teal_background">my-game.html</mark> 后，接着再次单机 <mark class="highlight-teal_background">my-game.html</mark> ，在 <mark class="highlight-teal_background">打开方式</mark> 中选择 <mark class="highlight-teal_background">记事本</mark> ，你会在打开的记事本中看到：</p><pre id="68c078c1-6e32-4fc9-b40e-a1b3ae4e06f6" class="code"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;我的小游戏&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;canvas id=&quot;app&quot;&gt;&lt;/canvas&gt;
+    &lt;script src=&quot;./index.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;./pattern.js&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;
+				// 在这一行之前的内容不要改动
+        let width = 30
+        let height = 18
+        let mygame = new Game(width, height, 2)
+        // 在这里写你的代码
+
+
+        // 在这一行之后的内容不要改动
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre><p id="67e0c98f-5078-4d39-a8bb-fda4af3e8a8b" class="">OK！我们的准备工作就做完了！</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="3aaa047a-6312-4c46-8690-b531c5f3d4aa"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>小提醒
+</strong>如果在后面的编码中发现折腾不出影了，可以回到这里重新复制上面代码，也许可以解决问题。</div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="c02cd6c8-e9a1-481c-aec1-d7336c58848d"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>不是必须做的，但会优化你的编码体验的事</strong>
+实际上，记事本虽然可以用来编写代码，但用起来可能并不是那么方便。如果你不怕一点点麻烦，可以进入 <a href="http://www.sublimetext.com/3">http://www.sublimetext.com/3</a> 下载 sublime text，用它来代替记事本。</div></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="51056d56-0b8b-4bb0-9465-337e2cb92061"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>注意！</strong>
+学习编程最最最重要的是 <strong>动手</strong> 。在接下来的学习中，请务必动手敲下代码。假如有些地方自己不会写，也请务必照着示例代码抄下来，<strong>不要直接复制粘贴</strong>。</div></figure><h2 id="1f4b8838-3786-418c-be9f-d785bc6e7046" class="">开始</h2><p id="3b3e4674-b05d-4cd8-9860-b84bc023794a" class="">接下来我们的目标是编写开头你看到的小游戏。你可以<a href="http://fp.mengru.space/src/example.html">点击这里</a>来自己体验这个游戏。</p><p id="14b641f6-d831-4177-ba87-8965121ecd01" class="">通过体验这个游戏，你一定可以发现，你可以操纵一个小人儿行走和跳跃，这个小人儿可以在浅灰色的区域自由行动，但是无法穿越墙壁和地板（深灰色区域）。</p><p id="e6f9471e-1087-4724-ab22-767e1f9c0b00" class="">如果把这个游戏看作是由一组积木搭建而成的，那么这组积木里面必须有的最基础的积木块是什么呢？</p><ol id="5c64252b-6348-45ee-bbe7-f46ff95a716d" class="numbered-list" start="1"><li>必须有人，他可以被操纵</li></ol><ol id="5c4f4c23-b164-405d-a216-3dde9de0b231" class="numbered-list" start="2"><li>必须有墙，它无法被人穿越</li></ol><ol id="1ba3a22f-db58-4c19-89b0-ed96eb9a9e49" class="numbered-list" start="3"><li>必须有空气，人可以在其中自由行动</li></ol><p id="408d00b2-5726-4719-aa4a-87e2148e63d0" class="">那么现在看着你面前的代码，让我们把目光移到这里：</p><pre id="73397cee-e074-4100-9109-ffd0f817428e" class="code"><code> let width = 30
+ let height = 18
+ let mygame = new Game(width, height, 2)
+ // 在这里写你的代码</code></pre><p id="bc520436-3c8b-4824-90a9-815ee64af8e2" class="">能够注意到的是，在这四行字里面，前三行的格式都是相同的，即：</p><pre id="8ae3d9c6-ee83-40a3-9528-b3331722a0e5" class="code"><code>let 啥啥啥 = 谁谁谁</code></pre><p id="9b862b87-290a-4bed-9f3c-f4f52ce9b542" class="">它的意思也很简单，就是字面意思：让 啥啥啥 等于 谁谁谁</p><p id="446d549e-0f6e-48ad-acc0-c555bba6fa55" class="">比如：</p><pre id="903b1d29-fa99-424f-a8ba-744bb6889967" class="code"><code>let width = 30
+让 width 等于 30
+
+let height = 18
+让 height 等于 18
+
+let mygame = new Game(width, height, 2)
+让 mygame 等于 new Game(width, height, 2)</code></pre><p id="da277294-71d1-4d48-a512-d590587d3a21" class="">这样做的结果是什么呢？这样就相当于你为等号右边的东西取了个名字，名字就是等号左边的东西，你可以通过这个名字来召唤等号右边的东西。比如：</p><pre id="78950478-452f-49a4-a11f-7bb93dcfb823" class="code"><code>let width = 30
+let height = 18
+let mygame = new Game(width, height, 2)
+
+在 new Game(width, height, 2) 这串神秘代码中，width 代表 30，height 代表 18
+
+于是它就相当于：
+new Game(30, 18, 2)</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="8f9ee7a4-beb2-4ef1-8d2b-fa2b9c1f8c45"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>小提示</strong>
+除了从“取名字”的角度去理解，你也可以将这种格式的代码理解为<strong>将名字和实体进行绑定</strong>。比如 let width = 30 ，你可以理解我们为 30 取了一个名字叫 width，也可以理解成我们将 width 这个名字与 30 进行绑定，这样理解就意味着，width 可以进行“换绑”，也就是如果我们不需要它与 30 进行绑定了，便可以通过代码 width = 42 来将它和 42 进行绑定，此时 30 失去了它的名字 width，而 42 获得了新名字 width，而从 width 的角度，它拥有了新的“实体” ：42。
+在编码的许多时候，我们更需要第二种理解。</div></figure><p id="8fb0d7eb-ed0d-4216-9663-30ac94f1d72d" class="">接下来看第四行：</p><pre id="f148101f-4615-44fa-baf8-b682cbf2a66a" class="code"><code>// 在这里写你的代码</code></pre><p id="bd79564d-2a4d-431d-b9f1-825d79b13959" class="">这一行不是代码，它只是一个小提醒，无论它在或不在，都不会影响代码的运行。你可以把它删掉，也可以将它保留，甚至可以多写点什么，只要不要忘记：假如你要换行写，请以 <mark class="highlight-teal_background">//</mark> 开头。</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="fc7bd419-1e8a-406b-a0bb-ec3e3f69480e"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>注意！</strong>
+请不要改动这个区域之外的其它固有代码。即认真遵守另外两个小提醒：在这一行之前的内容不要改动、在这一行之后的内容不要改动。</div></figure><p id="0111b715-0ab5-4c6e-9644-309eeb171ab2" class="">是不是很简单？搞明白了这个小规则，我们来介绍主菜。</p><p id="54a2dbcd-843c-4a2b-8b72-a5ffe58017b9" class="">刚才提到，我们可以把这个游戏看作是由一组积木搭建而成的，那么在我们的代码中，谁是这样的一组积木呢？答案是：</p><pre id="856ba598-58cd-4a1f-8424-be3db6bbbd07" class="code"><code>let mygame = new Game(width, height, 2)</code></pre><p id="15b9f1cb-5f22-4ec7-93b9-d0bdf676cf1a" class="">这句话的意思是：创建一个新游戏，它的界面的宽是 30 个积木块，高是 18 个积木块（2 所代表的意思我们后面再说），给它取一个名字，叫 mygame。也就是说，我们可以使用 <mark class="highlight-teal_background">mygame</mark> 提供的一些积木块，在这个游戏界面上搭建我们的小游戏。</p><p id="c50e6512-f372-4f1c-aac5-478f02a24f08" class="">再来复习一下刚才所说的必须有的积木种类：人、墙、空气。</p><p id="8f55edda-2464-475b-b8fd-593f881552c6" class="">于是我们可以分别通过下面的代码来创建人类型的积木、墙类型的积木和空气类型的积木：</p><pre id="71f02c10-9498-431c-b1f5-80b81bf2e171" class="code"><code>let human = mygame.create.humsn() // 创建一个人类型的积木，它可以被操纵
+let wall = mygame.create.wall() // 创建一个墙类型的积木，它无法被人穿越
+let air = mygame.create.air() // 创建一个空气类型的积木，它可以被人穿越</code></pre><p id="020f7663-a7d5-45cc-b503-1b74b7faccfe" class="">OK，那我们快来试一下吧！在 <mark class="highlight-teal_background">// 在这里写你的代码</mark> 这一行的下面一行输入：</p><pre id="31febc8a-7250-404d-95b4-3c1d26f99838" class="code"><code>let human = mygame.create.human()</code></pre><p id="8ca46211-062e-4237-99a9-fcbabbb5ad3f" class="">这样，我们就在游戏中创建了一个小人儿。按 <mark class="highlight-teal_background">ctrl s</mark> 进行保存，然后刷新网页可以看到效果：</p><figure id="2e5aa203-f3ed-44a4-a09c-5a6b3ba3c766" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/1.1.PNG"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/1.1.PNG"/></a></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="7c60768b-8ddf-4127-8489-67ad141f1f63"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>注意！
+</strong>每当你改动代码后，都必须按一次 ctrl s 进行保存，这样才能使代码生效。
+怎么按 ctrl s ：按住键盘上的任意一个 ctrl 键，然后按一下 s 键，最后松手。</div></figure><p id="8a93d107-e86a-4566-82b3-0da656121336" class="">你可以看到游戏界面的左下角出现了一个绿色小方块，它并不是人的形状。要把它变成人的形状，我们在下一行输入：</p><pre id="b2554707-99be-4966-b68b-e0f9ce1f22ad" class="code"><code>human.style = pattern.human</code></pre><p id="8896acab-70d9-4fb9-9347-c4149db84d5c" class="">保存后刷新，你就能看到：</p><figure id="c2d8b6c4-e2d6-45f6-be6f-792391693946" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/1.2.PNG"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/1.2.PNG"/></a></figure><p id="1db71a22-52c4-4fba-9f7f-7920e3289325" class="">回看刚才的两句代码：</p><pre id="a7f227e0-8a89-4e36-b4c1-c8a72cfb3fa6" class="code"><code>let human = mygame.create.human()
+human.style = pattern.human</code></pre><p id="d07e0564-eb00-496b-9a87-c9008de0fe85" class="">第一句的意思你一定知道：我们为 <mark class="highlight-teal_background">mygame.create.human()</mark> 取了个名字，叫 <mark class="highlight-teal_background">human</mark> 。</p><p id="1bb41125-bf4e-4c86-9617-3410bb0c0a89" class="">那 <mark class="highlight-teal_background">mygame.create.human()</mark> 又是什么意思？它仍然是字面意思：在 mygame 中 <mark class="highlight-teal_background">创建</mark> 一个<mark class="highlight-teal_background">人</mark></p><p id="6ce48670-c27d-44c4-99e0-c1a3236db1e6" class="">末尾的一对英文括号 <mark class="highlight-teal_background">()</mark> 意为“执行”，因为“创建一个人”是一个 <mark class="highlight-teal_background">动作</mark>，我们需要在末尾使用 <mark class="highlight-teal_background">()</mark> 来使这个动作执行。</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="64013189-d90a-4265-bb64-cc233e978569"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>注意！
+</strong>在代码中，所有的符号（包括但不限于等号 = 、点号 . 、括号 () ）都是英文符号。在你编写代码时，请确保输入法已切换为英文输入法。</div></figure><p id="75a839c2-9155-455b-9c59-22cc9f698fe4" class="">第二句代码仍然是字面意思：</p><pre id="fcf70aa2-6663-4b55-80be-7b630f8c9892" class="code"><code>human.style = pattern.human
+人  的 样子 是 图案 里的 名为human的图案</code></pre><p id="87f0539c-4fc6-48df-a243-fa9c7b816d9a" class="">以此来将人的默认的样子（一个绿色方块）改变为一个嚣张奔跑的人的样子。</p><p id="1de84e54-f6a6-43ae-8f2c-a0afde22789a" class="">现在这个小人儿可以自由活动啦！你可以使用键盘上的 a、d、w 来控制小人行走的方向和跳跃。</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="87bbdf7e-29ba-44a2-98a9-cd6198330855"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>小提示</strong>
+你可以打开<a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E5%9B%BE%E6%A1%88%E5%9B%BE%E9%89%B4%20f99b9ae61de94e1f8d703e9e8266a0c2.html">图案图鉴</a>来浏览和挑选目前可用的图案。</div></figure><h2 id="b7321535-95f0-4121-8d0e-d6a7a336c6b0" class="">来几堵墙</h2><p id="2431555b-65af-42f1-a244-98bd3b516022" class="">现在，我们考虑为我们的游戏添加墙壁。</p><p id="c6452301-aece-4e55-b082-d53b55b93ef4" class="">上一节我们学习了创建小人儿的方式，类似地，我们来创建一个墙：</p><pre id="a51cdd3e-b530-4930-8738-ac21bdd311dd" class="code"><code>mygame.create.wall()</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="dd2b37b1-5d07-46d5-85cf-7c1cbd542edc"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>小提示</strong>
+当你认为也许不需要再召唤这个东西时，也可以不使用 let 为它取名字。</div></figure><figure id="7766b6e7-ce34-4033-8d13-7f74d7ecc78f" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.1.PNG"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.1.PNG"/></a></figure><p id="5aac2274-bdab-46d2-a75e-6a5514fb7157" class="">如上图所示，你会看到游戏界面的左下角出现了一个灰色方块。原本在左下角的小人儿不见了，这是因为小人儿和灰色方块在同一位置，灰色方块将小人儿覆盖掉了。</p><p id="7997b9a9-139b-4208-aa33-3ccbac9e810f" class="">我们先不理会小人儿，先来考虑把其他的墙建好。</p><p id="0195b8e5-eea8-4ac1-9c73-5cf40908eeaa" class="">如你所见，我们的游戏中需要的墙有这些（深灰色部分）：</p><figure id="36d5fed9-96d3-43b4-b3b5-a3442a8dfb91" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.2.PNG"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.2.PNG"/></a></figure><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="06b19612-e77e-44fb-8d42-fa21efb22208"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>小提示
+</strong>在你自己的游戏中可以通过 mygame.grids.on() 来打开上图中的坐标系，以方便你在放置积木的时候确定坐标。如果不再需要这个坐标系，可以通过 mygame.grids.off() 关掉。</div></figure><p id="2038180d-21b0-42e7-b461-70798e9e4528" class="">每一个墙的位置不同，我们需要在创建墙的时候规定墙的位置：</p><pre id="cfc4f79e-c275-4c60-b99f-4d5d63b52789" class="code"><code>mygame.create.wall(0, 1)
+// 0 代表这块墙的坐标 x ，1 代表它的坐标 y</code></pre><figure id="048399b1-2316-488f-99eb-9030d50f2ce6" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.3.PNG"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.3.PNG"/></a></figure><p id="2ba54d3d-c512-4e4f-9dbf-0a12c82aa80a" class="">你会发现这一块墙改变了位置，到小人儿的头上一格了。</p><p id="3cbd9e4a-8ee0-4cf3-85fa-98a097fb891d" class="">好了，此时你也许开始搞明白了：只要我按照前面的图纸中墙的样子，在相应位置创建墙，这样就可以了。就像：</p><pre id="1cdfb491-872b-4b55-bc61-6cceb269cda7" class="code"><code>mygame.create.wall(0, 0)
+mygame.create.wall(0, 1)
+mygame.create.wall(0, 2)
+mygame.create.wall(0, 3)
+mygame.create.wall(0, 4)
+mygame.create.wall(0, 5)
+mygame.create.wall(0, 6)
+mygame.create.wall(0, 7)
+mygame.create.wall(0, 8)
+mygame.create.wall(0, 9)</code></pre><figure id="540d1845-195d-4c04-9771-9700593e05bd" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.4.PNG"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.4.PNG"/></a></figure><p id="d92fa577-39fa-419e-b965-9a320d5cc78e" class="">一口气建了10个墙！可是问题来了：这样实在太慢了。数一数前面的图纸中墙的数量，光四周的墙就有 18 * 2 + 30 * 2 = 96 个，写完这些手都要抽筋了。</p><p id="ab52bb12-963a-4768-aedd-9364ff9d275b" class="">为了解决这个问题，我们引入一个工具：循环。</p><p id="8da5f3bc-d302-4c96-8dd2-5b631fe3ac00" class="">先观察上面创建10个墙的代码，我们会发现它们的规律：所有墙的坐标的 x 相同（都是 0 ），y 从 0 开始递增，每次加 1 ，直到 y 等于 9 。这个过程可以通过一段简短的代码来描述：</p><pre id="2fe6ebd3-8d7a-4484-aaee-ee8098a8ea9d" class="code"><code>for (let i = 0; i &lt;= 9; i++) {
+	mygame.create.wall(0, i)
+}</code></pre><p id="ec8905f2-8388-4c55-8b52-d4ab8072b3bf" class="">这段代码的意思是：创建一个 i 让它等于 0，每次执行完<mark class="highlight-teal_background">花括号</mark>（{ }）中的内容后，i 加 1；而每次执行花括号中的内容之前，都要检查一下 i 的大小，看它是否小于等于 9，如果不符合这个条件，就不再执行了。整个循环过程分解如下：</p><pre id="363aab5b-ec5c-4fb2-8cee-84a298ac1b11" class="code"><code>let i = 0
+问题：i &lt;= 9 吗？
+答：是的
+执行：mygame.create.wall(0, 0)
+i = 1
+问题：i &lt;= 9 吗？
+答：是的
+执行：mygame.create.wall(0, 1)
+i = 2
+问题：i &lt;= 9 吗？
+答：是的
+执行：mygame.create.wall(0, 2)
+i = 3
+......
+......
+i = 9
+问题：i &lt;= 9 吗？
+答：是的
+执行：mygame.create.wall(0, 9)
+i = 10
+问题：i &lt;= 9 吗？
+答：不是
+循环结束</code></pre><p id="e459299f-df9b-444c-8ffc-650eb1ca4e2b" class="">学会了这个工具，造墙就方便多了。我们按照上面给的图纸来造一下四周的墙：</p><pre id="53403b7f-3cd5-406b-8118-db990dfe7ec7" class="code"><code>for (let i = 0; i &lt;= 17; i++) {
+	mygame.create.wall(0, i)
+	mygame.create.wall(29, i)
+}
+for (let i = 0; i &lt;= 29; i++) {
+	mygame.create.wall(i, 0)
+	mygame.create.wall(i, 17)
+}</code></pre><p id="f4e83832-69d7-4c2a-a711-4d73d83698bb" class="">剩下的墙就留给你自己按照图纸去建。如果有些地方搞不定了，可以用记事本打开 <mark class="highlight-teal_background">example.html</mark> 看看提示。</p><p id="abb2e87b-4bc8-424f-a126-fe0621b4e08a" class="">对了！别忘了那个被墙盖住的小人儿。你可以给小人儿换个位置：</p><pre id="6bc602fe-5b2f-493a-b789-0cd711e7a7b1" class="code"><code>human.x = 1
+human.y = 1</code></pre><figure id="d37a8030-103a-42f1-be7f-20a54edaaab0" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.5.PNG"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/2.5.PNG"/></a></figure><p id="d59b8e40-6f26-4d1d-9c45-63ea42dcacf7" class="">这样就能看见他啦！</p><h2 id="a38710f8-e00d-4e6c-96d4-4f12e099e360" class="">星星和火</h2><p id="8abf5f0a-a911-4144-9bfc-4e5a7ea888fb" class="">紧接着，我们来为游戏添加星星和火，为我们的游戏增加一点难度和目标。先看看图纸：</p><figure id="cd226b60-3f19-45f7-a407-059be896a426" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/3.1.PNG"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/3.1.PNG"/></a></figure><p id="ec3b7aa8-d219-4d84-a3a0-c41cfe658cb1" class="">星星和火所在的位置一目了然，我们只需要在合适的位置创建积木，然后为积木设置相应的图案就可以了。但当你想下手编码时，你会发现一个问题：我该创建什么类型的积木呢？有星星或者火焰类型的积木吗？比如我可以这样写吗：</p><pre id="dfad1c0a-5ec7-48cd-b3c1-452bfab4b67b" class="code"><code>mygame.create.star(28, 4)
+mygame.create.fire(14, 3)</code></pre><p id="c2828305-b57e-4845-ad3a-f20bf0ca1198" class="">假如你这么写了，当你保存代码刷新页面后，会发现游戏界面上并没有如你预期的那样出现星星和火。这是因为我们的积木中并没有星星类型的积木，也没有火焰类型的积木。</p><p id="14caa5f3-0b66-4453-9cee-96468e402d76" class="">你可能觉得有点手足无措了。冷静下来思考一下，我们想在游戏中添加的星星，它具备什么性质？或者说，当我们操纵的小人儿靠近星星的时候，小人儿在星星的什么位置时可以吃到星星？一般来说，是当小人儿走过去，与星星产生 <mark class="highlight-teal_background">重叠</mark> 时，星星被吃掉。也就是说，星星和墙不一样，它是可以被小人儿“穿越过去”的。想到这里，你可能恍然大悟：可以被小人儿穿越过去，这不是和前面说的空气类型的积木是一样吗！</p><p id="8556a941-6cf9-41db-885d-1f1f4905e182" class="">我们再次复习一下前面的分析：最基础的积木块必须有哪些？</p><ol id="135a6312-b843-4403-8bbf-9561c255e0e6" class="numbered-list" start="1"><li>必须有人，他可以被操纵</li></ol><ol id="5561c922-6505-43aa-914b-4504c527c7e9" class="numbered-list" start="2"><li>必须有墙，它无法被人穿越</li></ol><ol id="96703eb4-f12b-45d9-9ff2-49867ba70345" class="numbered-list" start="3"><li>必须有空气，人可以在其中自由行动</li></ol><p id="1a5a1053-d3b2-4549-9a08-9c0b28bf8c88" class="">在当前的场景中，我们想添加的星星的性质和空气积木所拥有的性质是一样的。也就是说，<strong>我们不必拥有一个“星星”类型的积木才能创建星星，只要现有的积木符合我们期望中星星的性质，就可以使用它来创建这样的星星。</strong>于是，我们可以使用空气类型的积木来创建星星：</p><pre id="b9f065eb-cade-44e7-ab44-6aefd169cb5e" class="code"><code>let star1 = mygame.create.air(28, 4)
+star1.style = pattern.star</code></pre><figure id="cdf6b69b-bb0f-4416-a3d6-d899027eafaa" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/3.2.PNG"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/3.2.PNG"/></a></figure><p id="06138b58-a302-4d17-9922-99303e7e9387" class="">如此，你可以对照图纸将其它星星创建好，并用类似的思考方式来考虑火焰的创建。如果遇到问题，可以用记事本打开 <mark class="highlight-teal_background">example.html</mark> 看看提示。</p><h2 id="3bf18f49-fff4-41d1-bdda-7f1d33a40016" class="">让子弹飞</h2><p id="14643485-7b1c-4687-8dc5-7643c23c8647" class="">在添加子弹之前，让我们先来分析一下子弹的飞行路径。</p><p id="07447321-c503-4db8-be8a-56d20af06dbb" class="">通过体验游戏你可以发现，子弹在红色的枪口处生成，飞到游戏界面的最左侧消失：</p><figure id="1cec4831-6f2d-4383-9af1-6ec30bfe7203" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/4.1.gif"><img style="width:624px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/4.1.gif"/></a></figure><p id="833a1a22-a598-4838-892d-d6c6e8a906b6" class="">于是我们可以得出分析结果：让子弹在枪口处生成，然后将它一直向左移，直到移出游戏界面；每隔一秒钟（取决于你期望的子弹密度，这里我们使用一秒的间隔，你可以根据你自己的想法修改这个间隔时长）生成一枚子弹。</p><p id="82a87113-edba-4773-95e3-8e6978461f53" class="">我们先来考虑只生成一枚子弹时的情况。</p><p id="32251e03-32f1-4418-8858-7a41584d5a69" class="">子弹在枪口处生成的代码你一定会写：</p><pre id="cc7f3a94-05de-4530-9a6f-526b21e82e56" class="code"><code>let bullet = mygame.create.air(28, 1)
+bullet.style = pattern.bullet</code></pre><p id="311dcf35-f6f1-4cae-9e26-b0d2ee6e6642" class="">接下来要做的就是将它不断向左移。在此之前你需要了解一个积木提供的功能：自动移动。自动移动是指使积木朝某个方向以你设定的速度以匀速通过你设定的路程。你可以通过阅读<a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E4%B9%A6%2097edb86a294948898e7eb105ddec013a.html">详细说明书</a>中对 <strong>automove.left </strong>的描述来获得关于自动移动功能的详细信息。</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="0685293d-959c-4aad-9158-f6fc879117db"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>小提示</strong>
+打开<a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E4%B9%A6%2097edb86a294948898e7eb105ddec013a.html">详细说明书</a>后，你可以按 ctrl f 来搜索 <strong>automove.left </strong>所在的位置并直接到达那里。</div></figure><p id="2d2e91a1-d859-4a2d-93a2-76625300a705" class="">于是要实现将子弹不断向左移并移出游戏界面，可以这么写：</p><pre id="b2b87963-86e7-4ea2-8346-bdae6fb17420" class="code"><code>bullet.automove.left(29, 4)</code></pre><p id="471a27d7-7b5f-4936-ae4e-7481b3e3748a" class="">上面的代码中，29 是指子弹向左移动的距离，4 是指子弹移动的速度。你可以保存后刷新页面查看子弹飞的效果。</p><p id="ea32a9c0-70d3-4a53-919b-0332f3cee9f0" class="">解决了一枚子弹飞的问题，接下来只要我们可以在枪口的位置每隔一秒生成一个子弹，然后让子弹“automove”，整个功能就实现完成了。</p><p id="14543f4d-4e20-4ad2-a12e-a65e010c02a2" class="">想要实现每隔一秒生成一个子弹，我们会朴素地认为：如果有一个定时器，它每隔一秒触发一次，每次触发都执行下面的代码：</p><pre id="a23a574e-58c0-4445-a746-a72ff7fc54ff" class="code"><code>let bullet = mygame.create.air(28, 1)
+bullet.style = pattern.bullet
+bullet.automove.left(29, 4)</code></pre><p id="2890de0d-92fe-47fa-b827-2798880cc7ac" class="">那这事不就成了吗？关键是有没有这样的定时器呢？</p><p id="e5def638-30d7-43c9-b2b2-4bd63895c576" class="">还真有！它要这么写：</p><pre id="94b059d3-a8ad-407d-849f-8c13fa12ec95" class="code"><code>setInterval(function() {
+	// 写你的代码
+}, 1000)</code></pre><p id="a5d05647-4f85-4f0d-9307-fdc88907f66d" class="">若要理解上面的代码，我们还需要了解一个工具：函数。</p><p id="62756244-0212-4e6d-9565-ff098df6f933" class="">我们大多数人对函数的最朴素的认知来源于初中数学中的 y = kx + b，其中 k 和 b 是常数，x 是自变量，y 是因变量。输入不同的 x，可以得到不同或相同的 y（在这个例子中只能得到不同的 y）。</p><p id="6722d979-039c-46bb-8f28-e6f2c020feff" class="">在编程语言中创建的函数的结构和它差不多，同样是输入 x 后可以输出 y，但不同的是，编程语言中有的函数可以既没有 x 也没有 y，它单纯被用来作为执行过程（代码）和传递过程（代码）的容器，就如同上面定时器代码中的函数：</p><pre id="ba085112-eecc-489a-a619-3678525a91e1" class="code"><code>function() {
+	// 要被执行的代码
+}</code></pre><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="93375264-fb2b-4832-adac-13282e810165"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>注意！</strong>
+function 后面的一对英文括号 () 是必须的。</div></figure><p id="be746dae-4abd-4b0c-b095-7720b2276af5" class="">你将你想执行的代码写在里面，然后把这个函数和执行间隔时间告诉（传递给）定时器，定时器就会每隔你指定的时间执行一次这个函数中的代码。</p><p id="88cf7897-8141-48e4-b582-af248d7fe864" class="">你可以这么写：</p><pre id="25daecd2-4df6-46b9-af7b-1354aa2a65ff" class="code"><code>let createbullet = function() {
+	let bullet = mygame.create.air(28, 1)
+	bullet.style = pattern.bullet
+	bullet.automove.left(29, 4)
+}
+setInterval(createbullet, 1000)</code></pre><p id="5235f9f7-7234-4759-97d0-70d662677808" class="">当然也可以这么写：</p><pre id="90462737-d401-4090-abe0-27a00778b759" class="code"><code>setInterval(function() {
+	let bullet = mygame.create.air(28, 1)
+	bullet.style = pattern.bullet
+	bullet.automove.left(29, 4)
+}, 1000)</code></pre><p id="845c209f-49e3-4e19-8472-d39933cb41cc" class="">其中，英文逗号后面的 1000 是指 1000 毫秒（1秒 等于 1000 毫秒），整段代码的意思是：让定时器每隔 1000 毫秒，执行一次函数中的代码——创建一个子弹，并让它以速度 4 左移 29 个格子。</p><p id="6da4bd9c-68fa-4590-b438-581f3c0308a4" class="">最后，让我们再添加一个枪口：</p><pre id="6bc5e18a-7399-40a1-bc9f-649abd31c408" class="code"><code>let gun = mygame.create.wall(28, 1)
+gun.style = pattern.gun</code></pre><p id="f6c85937-d681-4cd4-93c5-3ae6265caf58" class="">如此，整个子弹发射功能就完成了！</p><p id="7b3f74a5-7a69-4ac9-9bc3-cea56c24aaa6" class="">留一个小练习：请你通过查阅附录的<a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E5%9B%BE%E6%A1%88%E5%9B%BE%E9%89%B4%20f99b9ae61de94e1f8d703e9e8266a0c2.html">图案图鉴</a>和<a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E4%B9%A6%2097edb86a294948898e7eb105ddec013a.html">详细说明书</a>，来实现那个飞来飞去的绿色龟壳。如果遇到困难，可以用记事本打开 <mark class="highlight-teal_background">example.html</mark> 查看提示。</p><h2 id="20718991-db4c-40be-ab64-3b1595d2a6f7" class="">花式领便当</h2><p id="ec5f3e17-a026-41d5-9baf-6028f9a0672e" class="">我们在前面已经添加了子弹、火焰等危险物品，假如你尝试游玩过自己的游戏，会发现它们对小人儿并没有杀伤力。在这一节，我们将会让这些危险物品名副其实。</p><p id="a63801c6-372e-402a-a34b-4a73b509e12e" class="">在我们的预期中，当小人儿碰到子弹、火焰和龟壳都会使游戏结束。将逻辑简单梳理一下，如图所示：</p><figure id="dec988c2-53b5-41f3-8a28-01b9c832b289" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/5.1.PNG"><img style="width:786px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/5.1.PNG"/></a></figure><p id="1b57f69e-6ebf-4570-bbe6-5a3ec618b119" class="">我们先看第一个菱形框中的内容：人是否碰到了火焰？如果用代码来描述这句话，该怎么做呢？</p><p id="b5948178-b09f-4941-9398-c053919a9a4a" class="">答案是使用 <mark class="highlight-teal_background">条件语句</mark> :</p><pre id="e2998b5a-edc4-4274-b752-d361258cd054" class="code"><code>if (human.istouched(fire1)) {
+	// 在这里写当人碰到火时要执行的代码
+} else {
+	// 在这里写当人没碰到火时要执行的代码
+}</code></pre><p id="bbbc28fb-ca86-4adf-b47d-c139492603cd" class="">在 if 后的括号内写下需要进行判断的代码，如果这条代码的执行结果是 <mark class="highlight-teal_background">true</mark> ，即“没错，就是这样”，那么第一个花括号中的代码会被执行；如果这条代码的执行结果是 <mark class="highlight-teal_background">false</mark>，即“不是这样”，那么就会进入“否则”，即第二个花括号中的代码会被执行。</p><p id="ed735c4f-1bce-439d-9a41-89d47b45ab80" class="">再来看 if 的括号中的代码：</p><pre id="75f1f757-8bab-4436-be07-6b177bdad9c4" class="code"><code>human.istouched(fire1)</code></pre><p id="30f0c085-5567-48f8-8ec5-92c7eb13ea2e" class="">我们的积木提供一个名为 <mark class="highlight-teal_background">istouched</mark> 的动作，它可以用于判断这个积木和另一个积木是否产生 <mark class="highlight-teal_background">接触</mark> ，如果产生接触，那么这个动作的执行结果是 true，反之为 false。所以上述代码的含义是：判断 human 和 fire1 是否产生接触。同时，积木还提供一个名为 <mark class="highlight-teal_background">isoverlapping</mark> 的动作，它是用于判断这个积木和另一个积木是否产生 <mark class="highlight-teal_background">重叠</mark> 。关于这两个动作的具体区别，你可以通过查阅<a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E4%B9%A6%2097edb86a294948898e7eb105ddec013a.html">详细说明书</a>来了解。</p><p id="61e114f7-b769-4aa7-b4b7-effe38824107" class="">我们接上文继续进行分析：人是否碰到了火焰？如果是，则游戏结束。我们的游戏亦提供了使游戏结束的动作：</p><pre id="ebdedb8a-fd73-40dd-b3a3-baf0cdc16508" class="code"><code>mygame.over.lose() // 游戏结束并宣布失败
+mygame.over.win() // 游戏结束并宣布胜利</code></pre><p id="057b80e6-7ba8-4780-81e7-b86e70c58246" class="">于是这整个过程便可以用代码表达为：</p><pre id="eb1a5c0c-96a0-4735-a769-2cbed4752c3b" class="code"><code>if (human.istouched(fire1)) {
+	mygame.over.lose()
+}</code></pre><p id="44529e3b-6631-4379-b6a7-aa0be2b55372" class="">完成了这一步，我们来考虑这样一个问题：检查小人儿和火焰是否接触的这个行为，应该在什么时候发生？在计算机的角度，它并不知道玩家操控的小人儿什么时候会接触火焰，只有 <strong>不断地</strong> 去检测是否发生接触，才能在小人儿真正接触火焰的时候给予及时正确的反馈。你也许想到：可以使用之前使用过的定时器，将上面的检测代码放在定时器中。那么我们又该如何去定义 “<strong>不断地” </strong>呢？每隔 1 秒？每隔 0.5 秒？每隔 0.01 秒？事实上，计算机也并不知道玩家按键的频率，所以无论选择间隔多长时间，都不是很恰当。我们又想，<strong>“不断地”可以不放在时间的维度去考虑，而放在小人儿移动的维度去考虑</strong>。即：不是每当间隔多长时间，而是每当小人儿发生移动后，就检测它是否和火焰接触。这么一来，无论玩家的操作频率是“很快”还是“很慢”，都可以确保有效检测。</p><p id="f28f8af2-9e6d-4f43-b09d-61e6f05edf3d" class="">我们的积木为这种“不断地”提供了实现：</p><pre id="d808a6e3-89c3-416b-a806-266777906b1f" class="code"><code>human.move.after = function() {
+	// 在这里写当小人儿发生移动后要执行的代码
+	// 每当小人儿发生移动，这里的代码都会执行一次
+}</code></pre><p id="78f2b514-ef47-4bff-a10d-9ae5347dcd5f" class="">于是，“小人儿移动 → 判断小人儿是否和火焰接触 → 如果是则结束游戏，如果不是则游戏继续”这一过程便可被实现为：</p><pre id="d728b006-bf10-465d-ab19-0282ddb71917" class="code"><code>human.move.after = function() {
+	if (human.istouched(fire1)) {
+		mygame.over.lose()
+	}
+}</code></pre><p id="cc5c00b2-0624-43ae-b289-bbd42e70fe97" class="">龟壳（这里默认作为龟壳的积木被命名为 turtle）和另一个火焰的实现方式同理，我们可以继续在 human.move.after 函数中追加它们的检测：</p><pre id="adeebd4e-ff1c-4c44-af63-f108de7c8e1b" class="code"><code>human.move.after = function() {
+	if (human.istouched(fire1)) {
+		mygame.over.lose()
+	}
+	if (human.istouched(fire2)) {
+		mygame.over.lose()
+	}
+	if (human.isoverlapping(turtle)) {
+		mygame.over.lose()
+	}
+}</code></pre><p id="4cce2568-509d-419b-a5f3-9057cd3c5231" class="">那么现在只剩下子弹了。别急，检测子小人儿是否和子弹重叠的实现方式与前面会略有不同。这是因为在游戏运行中会不断生成新的子弹，而我们写的代码一旦保存进入运行，是不能被自动修改的，也就是 human.move.after 的函数中无法随着子弹的新增来增加检测小人儿和子弹是否重叠的代码。</p><p id="ba3d1b02-e9e3-42d4-a80c-28c92ae89e5b" class="">所以我们可以尝试换个角度来思考：既然无法在小人儿移动时检测小人儿和子弹是否重叠，那可以在子弹移动时检测小人儿和子弹是否重叠呀！我们可以在每一枚子弹生成后对这枚子弹设置 move.after 函数：</p><pre id="07ac2ebc-e3b0-4863-8229-7a93980e6571" class="code"><code>setInterval(function () {
+	let bullet = mygame.create.air(28, 1)
+  bullet.style = pattern.bullet
+  bullet.automove.left(29, 4)
+	// 重点在这里👇👇
+  bullet.move.after = function () {
+    if (human.isoverlapping(bullet)) {
+      mygame.over.lose()
+    }
+  }
+  // 重点在这里👆👆
+}, 1000)</code></pre><p id="a2ec2faf-8d7d-4a86-9194-6d385a3f91b1" class="">这么一来，有关这些危险物品的杀伤性质就全部搞定啦！</p><p id="c5699fc6-363f-4642-b439-9418dbe904ac" class="">在本节的最后，我们再来简单看一下星星的处理。我们对星星的期望是：小人儿可以吃掉星星，即小人儿与星星产生重叠后，星星消失；小人儿吃掉右下（star1）和左上（star2）星星后，跳跃高度增加；吃掉右上（star3）星星后，游戏胜利。</p><p id="97f4bdf0-5abd-4342-9621-29633a4f78e0" class="">与对龟壳的重叠检测相似，在 human.move.after 函数中追加对星星的重叠检测：</p><pre id="aafc296f-5ab4-45fa-bd12-7708c9445e08" class="code"><code>if (human.isoverlapping(star1)) {
+	human.strength = 5
+	star1.remove()
+}</code></pre><p id="40017510-6f6d-43d0-8c90-a19367d64068" class=""><mark class="highlight-teal_background">human.strength</mark> 控制小人儿跳跃的最大高度，它的默认值是 3。我们选择一个更高的高度，以确保小人儿可以跳到第二层台子上。动作 <mark class="highlight-teal_background">remove</mark> 用于积木移除自身，当 star1.remove() 执行后，星星会消失。后面两颗星星的处理留给你自己去做，如果遇到困难，可以用记事本打开 <mark class="highlight-teal_background">example.html</mark> 查看提示。</p><figure class="block-color-gray_background callout" style="white-space:pre-wrap;display:flex" id="2dfb0c0e-c6eb-4077-b65b-eb0c3f882fd4"><div style="font-size:1.5em"><span class="icon">💡</span></div><div style="width:100%"><strong>挑战</strong>
+在上面的代码中，对龟壳与小人儿的重叠检测的实现思路有一点小问题，不知你是否能看出来？提示：当小人儿在龟壳的必经之路静止不动，龟壳经过了小人儿，会发生什么呢？
+答案在 example.html 中。</div></figure><h2 id="79f6a157-6639-4e87-beb2-122a3da6aa66" class="">欲乘石头归去</h2><p id="802ce4a1-2300-41ec-a7f0-d578e1866245" class="">回顾前面几节，我们学习了如何创建积木、使用循环更快地创建积木、认识了函数、使用条件语句来定义碰到特定积木时所触发的事情，以及一点点相关的编程思想。在本节，我们将不再学习新的知识，而是会着眼于对问题的分析。</p><p id="52ab2d21-a46e-435e-a37a-376240cd7710" class="">现在，我们的游戏还差最后一步：一块能够载人的飞来飞去的石头。相信对于如何创建这块飞来飞去的石头，你已经得心应手了：</p><pre id="77d3d3a9-424f-45f2-88bc-5cdfc1e3a2fb" class="code"><code>let stone = mygame.create.wall(9, 13)
+stone.automove.right(16, 1, true)</code></pre><p id="c568c47d-e49d-44e0-afd0-fc228eded19e" class="">但是当你保存代码刷新页面准备试试乘坐它时，会发现你的小人儿就算已经跳到了石头上，当石头移动后也会从上面掉下来——这好像和想象中的不太一样？在期望中，当小人儿跳到石头上后，应当会被石头载着一同前往终点。</p><p id="12641a63-dd4b-459a-8ecf-16010f0e46a5" class="">如果是在现实中的确会如此，这是因为当现实中的人站在正在移动的物体上后，由于存在摩擦力，人会被其所受到的静摩擦力加速，直到与该物体速度一致。所以看上去现实中的人面对移动中的物体时，只要一站上去就和它一起移动了，但在你无法观察到的地方，是存在一个摩擦力在促成这一现象的。</p><p id="3eb8e6f4-ebd5-4a1d-b52d-a90ab0a95be0" class="">回到我们的游戏中，在我们的游戏里，积木与积木之间并不会自然产生摩擦力，因为计算机它并不知道这一物理现象。你在游玩其它游戏操纵其中的角色所感受到的摩擦力，是由游戏开发者根据现实物理规律通过编写代码模拟出来的。而在我们的游戏里，也并不存在对摩擦力的模拟，因此小人儿不会同预期中那样站在石头上自动与石头一起移动。所以你可以认为：小人儿站在一块正在移动的积木上同积木一起运动，这并不是理所当然的，是需要程序设计者自己去实现的。</p><p id="6d0b3f8f-8c68-4964-860c-302ca5ffa937" class="">接下来，我们的任务便是去设计实现这一“功能”。</p><p id="223a8f81-fa60-4457-ad1e-acad58e98073" class="">前文提到，这样的现象在计算机中需要通过模拟摩擦力去实现，但若我们在此真的通过模拟摩擦力去解决，未免太过复杂，因为我们所需要的仅仅是希望 <strong>当人站在这块石头上后能在这块石头移动时一同移动</strong> 罢了。我们可以仅仅着眼于这一个单一的需求，而不考虑人站在其它石头上是否能达到同样的效果。</p><p id="6b7649b4-4086-43c9-bd02-7a8020e4b037" class="">根据这个需求，我们来分析小人儿从跳跃至石头上到从石头上下来到达终点的整个流程：</p><figure id="ffd2ff2c-bf53-4aa8-9d4a-33440db3aa48" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/6.1.PNG"><img style="width:539px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/6.1.PNG"/></a></figure><p id="2bfc526b-0cff-4982-98bb-d785fbb720ba" class="">你可以体验一下<a href="https://fp.mengru.space/src/example.html">示例游戏</a>，再结合上图的流程分析，来感受一下小人儿在这部分的移动流程。</p><p id="f9f29262-f4fe-4e1a-8e3c-88ac80d97436" class="">接下来，我们来具体分析小人儿从起跳到随石头移动的实现逻辑。首先复习一下我们的需求：我们希望当人站在这块石头上后能在这块石头移动时一同移动。也就是说，当人站在石头上后，石头移动一下，人就马上跟着移动一下，且人始终在石头的正上方一格，而这一切的前提，是人站在了石头上，即人与石头已经发生了接触。当人主动移动到与石头不再接触时，人便停止同石头一起移动。</p><p id="b5bbb80f-6723-4696-be9b-074cfccc39c4" class="">我们将上面的分析整理成更清晰的流程图：</p><figure id="fc5c5c5c-00f9-4ea7-87f8-df8d3e6dfbd2" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/6.2.PNG"><img style="width:606px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/6.2.PNG"/></a></figure><p id="0fd65a27-42bf-4d93-ab8c-ce10ba825a18" class="">我们将上述流程图实现为伪代码（伪代码是并非可以真正运行的代码，但它能够很容易被改为可以真正运行的代码）：</p><pre id="29699a47-7c92-4316-8bf2-752021cbd0be" class="code"><code>stone.move.after = function() {
+	if (小人儿与石头正接触着) {
+		human.x = stone.x
+		human.y = stone.y + 1
+	}
+}
+human.move.after = function() {
+	if (human.istouched(stone)) {
+		标记小人儿的状态为：正在与石头接触
+	} else {
+		标记小人儿的状态为：未与石头接触
+	}
+}</code></pre><p id="1b2e4d3a-ba60-46f3-af5a-98ba6db042fe" class="">不知道这段伪代码实现是否与你想得一样呢？不一样也没有关系，因为同一个需求大多数时候都会有不同的实现，你可以大胆尝试自己的想法！</p><p id="547b4b0e-aa76-45c8-b118-45e6edc410de" class="">如果你对上面的实现方式感兴趣，不妨接着向下读。</p><p id="d8860b37-794a-4fb7-851b-3fe8fb848387" class="">在上面的伪代码中，你可以注意到其中提到“小人儿的状态”。“状态”是一个拥有时间维度的量，比如说：在某一段时间中，某某拥有怎样的状态。于是我们需要将小人儿是否与石头接触的状态进行记录，以便在任何时刻都能访问到它：</p><figure id="30f84d13-dcdc-4ed1-b136-97a6d97c964c" class="image"><a href="https://rru.oss-cn-beijing.aliyuncs.com/fp/6.3.PNG"><img style="width:509px" src="https://rru.oss-cn-beijing.aliyuncs.com/fp/6.3.PNG"/></a></figure><p id="a5c6f32a-2385-44f7-9cf9-c33b8affc2df" class="">这就意味着，我们需要一个容器将这个状态储存起来。这个容器你很熟悉，我们在本教程的开头就学习过：</p><pre id="d6fe89b6-5b1e-49f6-ad80-54ce9485e72e" class="code"><code>let state = false</code></pre><p id="97ecf435-177a-49c5-b6b7-b1902b1361d1" class="">当小人儿的状态为正在与石头接触时，我们让 state 等于 true，反之，让它等于 false；当 stone 需要知道小人儿的状态时，就访问 state 看它是否等于 true，如果是，那么就同步改变小人儿的位置。完整的代码如下：</p><pre id="dcbf4f63-e712-4bf4-aab6-1e7c0744af38" class="code"><code>let state = false
+stone.move.after = function() {
+	if (state) {
+		human.x = stone.x
+		human.y = stone.y + 1
+	}
+}
+human.move.after = function() {
+	// 别忘记在此之前还有上一节写的其它代码
+	if (human.istouched(stone)) {
+		state = true
+	} else {
+		state = false
+	}
+}</code></pre><p id="566dd61e-268c-426b-8e59-95988af42f15" class="">如此一来，关于这个小游戏的全部内容就已经完成了！快保存你的代码运行看看吧。</p><h2 id="15a80fd2-e985-456d-8ab8-3b2003167e08" class="">就这？</h2><p id="fb04eec7-8cf1-40af-ae21-fc081dcb0948" class="">如果你随着教程编写完这个小游戏后最大的感想之一是：什么啊！这也太简单了吧！那请允许我为你颁发一朵小红花——你太厉害啦！</p><p id="43999169-43ca-4df5-9934-80234ea7346c" class="">如果到此你仍对学习编程抱有巨大的热情，那么你可以找一些常规的学习编程语言相关的教程，将本教程中未点名的诸多语言相关的知识点慢慢补全。比如数据类型、变量的概念、函数的更具体的用途，什么是语句，什么是表达式，什么是作用域等等。包括在本教程中，我一直将“对象方法”称为“动作”，那什么是“对象”什么又是“方法”？这可能又需要你去慢慢了解不同的编程范式。</p><p id="9cda5d16-6351-452d-a21a-927ee1f381d7" class="">还有很重要的一点，在这个世界上存在着成百上千中不同的编程语言，本教程中所使用的语言叫做 JavaScript。不同的语言擅长做不同的事情，它们运行在不同的环境中，比如浏览器，它就是 JavaScript 的运行环境。浏览器几乎预装在每一台个人电脑中，要使用运行在其中的编程语言进行编程，几乎不要额外安装和配置任何东西，这也是本教程选择使用 JavaScript 的原因。</p><p id="c244e824-9999-42c1-ab18-64acec0ecabe" class="">尽管这个世界上的编程语言数量是如此之多，但编程语言的语言特性的数量是有限的。我们只需要掌握大多数常见的语言特性，就能够快速地学会绝大多数主流语言了。请记住：语言只是工具，我们不需要学习那么多语言。无论去学习和使用哪一个语言，都取决于我们需要解决的问题。</p><p id="000b3178-3e76-4aea-821e-aeeb964aa70c" class="">除了学习语言本身，如果想解决更复杂一点的问题，你也许还需要了解一些数据结构和算法知识。所谓数据结构，是储存数据的形式，所谓算法，特指在计算机中解决问题的有效方法。在此提供一点感性认识：如果你学习了“数组”这个数据结构，那么你就已经具备编写<a href="https://fp.mengru.space/src/snake.html">贪吃蛇</a>（snake.html）的知识了；如果你想写一个<a href="https://fp.mengru.space/src/maze.html">迷宫游戏</a>（maze.html），就需要学习一下经典的搜索算法。</p><p id="18a74ca2-5036-4138-9951-88d06bbd1896" class="">当然，学习的时间很多，也可以先不着急补充太多知识，如果你有兴趣，也可以通过查阅<a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E4%B9%A6%2097edb86a294948898e7eb105ddec013a.html">详细说明书</a>结合自己的创意来设计开发更多的小游戏。</p><h2 id="ecc3f69f-b7f8-4aa1-b258-414f14ddf27f" class="">恭喜你！</h2><p id="ee2ca0c0-3993-4e3f-b815-0273778c7cd5" class="">你已经完成了本课程的全部内容！除了体验编程本身之外，你其实也一并体验了一名职业程序员的工作：分析问题、设计解决方案、解决问题，中途要查阅说明书（阅读技术文档），并遵循文档和团队制定的规范进行代码编写。</p><p id="b0303b49-0ded-4135-b726-b798784386b1" class="">相信通过这个课程，你也许体会到了一点点编程的乐趣，同时你也一定已经明白，编程就像搭积木一样，它并不神秘。但这只是个开始。在实际环境中，职业程序员要解决的问题会比想象的复杂，因为他们往往要面对更复杂的环境、更复杂的需求以及对代码质量更高的要求。当然，所有的“复杂”都是相对的。当你从这里出发，一步一步踏踏实实学习更多的计算机知识，你会发现它们也并不会比想象的困难和可怕。</p><p id="749c1c2f-4dd1-4c05-9e4a-14d98c0d7bdf" class="">加油！你一定能更上一层楼！</p><h2 id="a50bff18-ea6a-47f2-be0b-a850f63bf91b" class="">附录</h2><figure id="f99b9ae6-1de9-4e1f-8d70-3e9e8266a0c2" class="link-to-page"><a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E5%9B%BE%E6%A1%88%E5%9B%BE%E9%89%B4%20f99b9ae61de94e1f8d703e9e8266a0c2.html"><span class="icon">📄</span>图案图鉴</a></figure><figure id="dba8f2b2-3136-478f-9109-67af650dbc7b" class="link-to-page"><a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E8%87%AA%E5%B7%B1%E5%88%B6%E4%BD%9C%E5%9B%BE%E6%A1%88%20dba8f2b23136478f910967af650dbc7b.html"><span class="icon">📄</span>自己制作图案</a></figure><figure id="97edb86a-2949-4889-8e7e-b105ddec013a" class="link-to-page"><a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E%E4%B9%A6%2097edb86a294948898e7eb105ddec013a.html"><span class="icon">📄</span>详细说明书</a></figure><figure id="cdd62b4c-65a0-485f-8a79-5e3ba6bc8948" class="link-to-page"><a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E5%8D%95%E8%AF%8D%E8%A1%A8%20cdd62b4c65a0485f8a795e3ba6bc8948.html"><span class="icon">📄</span>单词表</a></figure><figure id="1abddec1-9c28-4c8c-b746-c817c52da77f" class="link-to-page"><a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E5%8F%91%E5%B8%83%E4%BD%A0%E7%9A%84%E6%B8%B8%E6%88%8F%201abddec19c284c8cb746c817c52da77f.html"><span class="icon">📄</span>发布你的游戏</a></figure><figure id="5d550f9b-42eb-4d4c-866a-b554c1224c20" class="link-to-page"><a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/Q&amp;A%205d550f9b42eb4d4c866ab554c1224c20.html"><span class="icon">📄</span>Q&amp;A</a></figure><figure id="9bdc3a2c-3f05-4580-91a8-6b52b5044e75" class="link-to-page"><a href="%E7%BB%99%E9%9B%B6%E5%9F%BA%E7%A1%80%E5%90%8C%E5%AD%A6%E7%9A%84%E7%BC%96%E7%A8%8B%E5%88%9D%E4%BD%93%E9%AA%8C%E8%AF%BE%20ea95a9754ccb4688900130be432edbd9/%E5%90%8E%E8%AE%B0%209bdc3a2c3f05458091a86b52b5044e75.html"><span class="icon">📄</span>后记</a></figure></div></article></body></html>
