@@ -170,7 +170,6 @@ class Game {
     }
 
     _create (blockType, x = 0, y = 0) {
-        // 这里要改成 create.human(x, y)
         let b
         blockType = blockType.toLowerCase()
         switch (blockType) {
@@ -198,7 +197,7 @@ class Game {
 
     iscollision (o, directions=[[1, 0], [-1, 0], [0, 1], [0, -1]]) {
         for (const b of this.blocks) {
-            if (b.blockType === 'wall') {
+            if (b.blocktype === 'wall') {
                 for (const d of directions) {
                     const nx = d[0] + o.x
                     const ny = d[1] + o.y
@@ -225,7 +224,7 @@ class Game {
             if (this.isGG) {
                 return
             }
-            const humanBlocks = this.blocks.filter((e) => e.blockType === 'human')
+            const humanBlocks = this.blocks.filter((e) => e.blocktype === 'human')
             switch (event.code.toLowerCase()) {
                 case 'arrowleft':
                     humanBlocks.filter(b => b.key.left === 'left').forEach(b => {
@@ -288,7 +287,7 @@ class Block {
         }
 
         // read-only
-        this.blockType = 'block'
+        this.blocktype = 'block'
         this.lastx = 0
         this.lasty = 0
         this.game = game
@@ -319,6 +318,9 @@ class Block {
         return this._y
     }
     istouched (o) {
+        if (o.removed) {
+            return false
+        }
         const directions=[[0.2, 0], [-0.2, 0], [0, 0.2], [0, -0.2]]
         for (const d of directions) {
             const nx = d[0] + o.x
@@ -331,6 +333,9 @@ class Block {
         return false
     }
     isoverlapping (o) {
+        if (o.removed) {
+            return false
+        }
         const nx = o.x
         const ny = o.y
         if ((nx + o.width) > this.x && nx < (this.x + this.width)
@@ -355,7 +360,7 @@ class Block {
     get automove () {
         const speedTable = [200, 150, 100, 50]
         return {
-            left: (d, r, s) => {
+            left: (d, s, r = false) => {
                 let i = 0
                 const id = setInterval(() => {
                     this.x -= 1
@@ -363,13 +368,13 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.automove.right(d, true, s)
+                            this.automove.right(d, s, true)
                         }
                     }
                 }, speedTable[s - 1] || 200)
                 this.timers.push(id)
             },
-            right: (d, r, s) => {
+            right: (d, s, r = false) => {
                 let i = 0
                 const id = setInterval(() => {
                     this.x += 1
@@ -377,13 +382,13 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.automove.left(d, true, s)
+                            this.automove.left(d, s, true)
                         }
                     }
                 }, speedTable[s - 1] || 200)
                 this.timers.push(id)
             },
-            up: (d, r, s) => {
+            up: (d, s, r = false) => {
                 let i = 0
                 const id = setInterval(() => {
                     this.y += 1
@@ -391,13 +396,13 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.automove.down(d, true, s)
+                            this.automove.down(d, s, true)
                         }
                     }
                 }, speedTable[s - 1] || 200)
                 this.timers.push(id)
             },
-            down: (d, r, s) => {
+            down: (d, s, r = false) => {
                 let i = 0
                 const id = setInterval(() => {
                     this.y -= 1
@@ -405,7 +410,7 @@ class Block {
                     if (i === d) {
                         clearInterval(id)
                         if (r) {
-                            this.automove.up(d, true, s)
+                            this.automove.up(d, s, true)
                         }
                     }
                 }, speedTable[s - 1] || 200)
@@ -421,7 +426,7 @@ class Wall extends Block {
         this.style = '#aaa'
 
         // read-only
-        this.blockType = 'wall'
+        this.blocktype = 'wall'
     }
 }
 
@@ -432,7 +437,7 @@ class Air extends Block {
         this.style = '#eee'
 
         // read-only
-        this.blockType = 'air'
+        this.blocktype = 'air'
     }
 }
 
@@ -451,7 +456,7 @@ class Human extends Block {
 
         // read-only
         this.lastmove = null
-        this.blockType = 'human'
+        this.blocktype = 'human'
 
         // private
         this.dropping = false

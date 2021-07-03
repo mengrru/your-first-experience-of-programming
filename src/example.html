@@ -15,67 +15,50 @@
         let width = 30
         let height = 18
         let mygame = new Game(width, height, 2)
+        /*
+        // 浅灰色背景
         for (let i = 0; i < width; i++) {
             for (let j = 0; j < height; j++) {
                 mygame.create.air(i, j)
             }
         }
-        for (let i = 0; i < width; i++) {
-            mygame.create.wall(i, 0)
-            mygame.create.wall(i, height - 1)
-        }
-        for (let i = 0; i < height; i++) {
-            mygame.create.wall(0, i)
-            mygame.create.wall(width - 1, i)
-        }
-        for (let i = width - 2; i > 10; i--) {
-            mygame.create.wall(i, 3)
-        }
-        for (let i = 0; i < 10; i++) {
-            mygame.create.wall(i, 7)
-        }
-        for (let i = height - 2; i > 10; i--) {
-            mygame.create.wall(5, i)
-        }
-        for (let i = 3; i < 6; i++) {
-            mygame.create.wall(i, 10)
-        }
-        for (let i = 0; i < 3; i++) {
-            mygame.create.wall(i, 13)
-        }
-        for (let i = width - 2; i > 25; i--) {
-            mygame.create.wall(i, 13)
-        }
-
-        let fire1 = mygame.create.air(14, 3)
-        let fire2 = mygame.create.air(15, 3)
-        fire1.style = pattern.fire
-        fire2.style = pattern.fire
+        */
 
         let human = mygame.create.human(1, 1)
         human.style = 'human'
 
-        let gun = mygame.create.wall(width - 2, 1)
-        gun.style = pattern.gun
+        // 四周的墙
+        for (let i = 0; i <= 17; i++) {
+            mygame.create.wall(0, i)
+            mygame.create.wall(29, i)
+        }
+        for (let i = 0; i <= 29; i++) {
+            mygame.create.wall(i, 0)
+            mygame.create.wall(i, 17)
+        }
+        // 剩下的墙
+        for (let i = 1; i <= 2; i++) {
+            mygame.create.wall(i, 13)
+        }
+        for (let i = 10; i <= 16; i++) {
+            mygame.create.wall(5, i)
+        }
+        for (let i = 3; i <= 5; i++) {
+            mygame.create.wall(i, 10)
+        }
+        for (let i = 1; i <= 9; i++) {
+            mygame.create.wall(i, 7)
+        }
+        for (let i = 11; i <= 28; i++) {
+            mygame.create.wall(i, 3)
+        }
+        for (let i = 26; i <= 28; i++) {
+            mygame.create.wall(i, 13)
+        }
 
-        let bulletFly = setInterval(() => {
-            let bullet = mygame.create.air(width - 2, 1)
-            bullet.style = pattern.bullet
-            bullet.automove.left(29, false, 4)
-            bullet.move.after = function () {
-                if (bullet.isoverlapping(human)) {
-                    mygame.over.lose()
-                    clearInterval(bulletFly)
-                }
-            }
-        }, 1000)
-
-        let turtle = mygame.create.wall(width - 4, 4)
-        turtle.automove.left(9, true)
-        turtle.style = pattern.turtle
-
-        let star = mygame.create.air(width - 2, 4)
-        star.style = pattern.star
+        // 三颗星星
+        let star1 = mygame.create.air(28, 4)
+        star1.style = pattern.star
 
         let star2 = mygame.create.air(2, 14)
         star2.style = pattern.star
@@ -83,29 +66,59 @@
         let star3 = mygame.create.air(27, 14)
         star3.style = pattern.star
 
-        let moveStone = mygame.create.wall(9, 13)
-        moveStone.automove.right(16, true, 1)
+        // 我们对于火焰的期望是：小人儿走在上面不会掉下去。
+        // 于是火焰可以使用墙类型的积木创建
+        // 但由于在火焰的位置已经有墙存在了，所以也可以使用空气类型的积木来创建
+        let fire1 = mygame.create.wall(14, 3)
+        fire1.style = pattern.fire
 
-        let touched = false
-        moveStone.move.after = function () {
-            if (touched) {
-                human.x = moveStone.x
-                human.y = moveStone.y + 1
+        let fire2 = mygame.create.air(15, 3)
+        fire2.style = pattern.fire
+
+        // 枪
+        let gun = mygame.create.wall(28, 1)
+        gun.style = pattern.gun
+
+        // 生成子弹
+        setInterval(function () {
+            let bullet = mygame.create.air(28, 1)
+            bullet.style = pattern.bullet
+            bullet.automove.left(29, 4)
+            bullet.move.after = function () {
+                if (human.isoverlapping(bullet)) {
+                    mygame.over.lose()
+                }
             }
-            if (moveStone.istouched(human)) {
-                touched = true
-            }
-        }
+        }, 1000)
         
-        human.move.after = function () {
-            if (human.istouched(fire1) || human.istouched(fire2) || human.isoverlapping(turtle)) {
+        // 飞来飞去的龟壳
+        let turtle = mygame.create.air(26, 4)
+        turtle.style = pattern.turtle
+        turtle.automove.left(9, 1, true)
+
+        // 由于龟壳也会移动，所以不能只在小人儿移动时检测重叠
+        // 否则当小人儿在龟壳的必经之路上静止时，即使龟壳碰到了小人儿，也不会触发游戏结束
+        turtle.move.after = function () {
+            if (human.isoverlapping(turtle)) {
                 mygame.over.lose()
             }
-            if (!star.removed && human.isoverlapping(star)) {
-                human.strength = 5
-                star.remove()
+        }
+
+        human.move.after = function () {
+            if (human.istouched(fire1) ) {
+                mygame.over.lose()
             }
-            if (!star2.removed && human.isoverlapping(star2)) {
+            if (human.istouched(fire2)) {
+                mygame.over.lose()
+            }
+            if (human.isoverlapping(turtle)) {
+                mygame.over.lose()
+            }
+            if (human.isoverlapping(star1)) {
+                human.strength = 5
+                star1.remove()
+            }
+            if (human.isoverlapping(star2)) {
                 human.strength = 6
                 star2.remove()
             }
@@ -113,8 +126,22 @@
                 star3.remove()
                 mygame.over.win()
             }
-            if (!human.istouched(moveStone)) {
-                touched = false
+            if (human.istouched(stone)) {
+                state = true
+            } else {
+                state = false
+            }
+        }
+
+        // 飞来飞去的石头
+        let stone = mygame.create.wall(9, 13)
+        stone.automove.right(16, 1, true)
+
+        let state = false
+        stone.move.after = function () {
+            if (state) {
+                human.x = stone.x
+                human.y = stone.y + 1
             }
         }
     </script>
