@@ -1,6 +1,8 @@
-<h1 class="doc-title" style="font-size: 40px">
-给零基础同学的编程初体验课
-<a class="github-button" style="font-size: 14px;" href="https://github.com/mengrru/your-first-experience-of-programming">Star on Github</a>
+<h1 style="font-size: 40px">
+    <p class="doc-title" style="display: inline-block; margin: 0">
+    给零基础同学的编程初体验课
+    </p>
+    <a class="github-button" style="font-size: 14px;" href="https://github.com/mengrru/your-first-experience-of-programming">Star on Github</a>
 </h1>
 
 $<toc{"containerId":"header-toc"}>
@@ -710,13 +712,13 @@ human.move.after = function() {
 
 如果到此你仍对学习编程抱有巨大的热情，那么你可以找一些常规的学习编程语言相关的教程，将本教程中未点名的诸多语言相关的知识点慢慢补全。比如数据类型、变量的概念、函数的更具体的用途，什么是语句，什么是表达式，什么是作用域等等。包括在本教程中，我一直将“对象方法”称为“动作”，那什么是“对象”什么又是“方法”？这可能又需要你去慢慢了解不同的编程范式。
 
-还有很重要的一点，在这个世界上存在着成百上千种不同的编程语言，本教程中所使用的语言叫做 JavaScript。不同的语言擅长做不同的事情，它们运行在不同的环境中，比如浏览器，它就是 JavaScript 的运行环境。浏览器几乎预装在每一台个人电脑中，要使用运行在其中的编程语言进行编程，几乎不要额外安装和配置任何东西，这也是本教程选择使用 JavaScript 的原因。
+还有很重要的一点，在这个世界上存在着成百上千种不同的编程语言，本教程中所使用的语言叫做 JavaScript。不同的语言擅长做不同的事情，它们运行在不同的环境中，比如浏览器，它就是 JavaScript 的运行环境。浏览器几乎预装在每一台个人电脑中，要使用运行在其中的编程语言进行编程，几乎不需要额外安装和配置任何东西，这也是本教程选择使用 JavaScript 的原因。
 
 尽管这个世界上的编程语言数量是如此之多，但编程语言的语言特性的数量是有限的。我们只需要掌握大多数常见的语言特性，就能够快速地学会绝大多数主流语言了。请记住：语言只是工具，我们不需要学习那么多语言。无论去学习和使用哪一个语言，都取决于我们需要解决的问题。
 
 除了学习语言本身，如果想解决更复杂一点的问题，你也许还需要了解一些数据结构和算法知识。所谓数据结构，是储存数据的形式，所谓算法，特指在计算机中解决问题的有效方法。在此提供一点感性认识：如果你学习了“数组”这个数据结构，那么你就已经具备编写[贪吃蛇](https://fp.mengru.space/src/snake.html)（snake.html）的知识了；如果你想写一个[迷宫游戏](https://fp.mengru.space/src/maze.html)（maze.html），就需要学习一下经典的搜索算法。
 
-当然，学习的时间很多，也可以先不着急补充太多知识，如果你有兴趣，也可以通过查阅[详细说明书](/?page=specification)和[自己制作图案](/?page=draw-pattern-yourself)结合自己的创意来设计开发更多的小游戏。
+当然，学习的时间很多，也可以先不着急补充太多知识，如果你有兴趣，可以通过查阅[详细说明书](/?page=specification)和[自己制作图案](/?page=draw-pattern-yourself)结合自己的创意来设计开发更多的小游戏。
 
 # 恭喜你！
 
