@@ -4,12 +4,153 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <title>给零基础同学的编程初体验课</title>
+    <link rel="stylesheet" href="/docs/statics/default.min.css">
+    <style>
+        #article {
+            max-width: 900px;
+            margin: 0 auto;
+            padding-bottom: 20px;
+        }
+        pre.hljs {
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: rgb(250, 250, 250);
+            overflow-x: auto;
+            line-height: 150%;
+        }
+        #article p img {
+            max-width: 100%;
+        }
+        #article mark {
+            background-color: rgb(221,237,234);
+            padding-left: 2px;
+            padding-right: 2px;
+            padding-bottom: 1px;
+            border-radius: 3px;
+        }
+        #article p {
+            line-height: 170%;
+        }
+        #article .tips {
+            display: flex;
+            margin: 10px 0;
+            padding: 7px 20px;
+            background-color: #EAFAF1;
+        }
+        #article .tips::before {
+            content: "💡";
+            font-size: 30px;
+            padding-top: 10px;
+            padding-right: 13px;
+        }
+        #article .warning {
+            display: flex;
+            margin: 10px 0;
+            padding: 7px 20px;
+            background-color: #FDF2E9;
+        }
+        #article .warning::before {
+            content: "⚡";
+            float: left;
+            font-size: 30px;
+            padding-top: 10px;
+            padding-right: 13px;
+        }
+        #article li {
+            line-height: 170%;
+        }
+        #article a {
+            color: #21618C;
+        }
+        footer {
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        .footer-link {
+            color: #21618C;
+        }
+    </style>
 </head>
 <body>
-    
+    <article id="article">
+    </article>
+    <footer id="footer" style="display: none;">
+        <a class="footer-link" href="/?page=index">返回首页</a>
+    </footer>
+    <script src="/docs/statics/markdown-it.js"></script>
+    <script src="/docs/statics/markdown-it-anchor.js"></script>
+    <script src="/docs/statics/markdown-it-toc-done-right.js"></script>
+    <script src="/docs/statics/markdown-it-mark.js"></script>
+    <script src="/docs/statics/markdown-it-container.js"></script>
+    <script src="/docs/statics/highlight.min.js"></script>
     <script>
-        window.location.href = './docs'
+        // window.location.href = './docs'
+        var md = markdownit({
+            html: true,
+            highlight: function (str, lang) {
+                if (lang && hljs.getLanguage(lang)) {
+                    try {
+                        return '<pre class="hljs"><code>' +
+                         hljs.highlight(str, { language: lang }).value
+                         + '</code></pre>'
+                    } catch (_) {}
+                }
+                return '<pre class="hljs"><code>' +
+                         md.utils.escapeHtml(str)
+                         + '</code></pre>'
+            }
+        })
+        md.use(markdownItAnchor, {
+            level: 1,
+            permalink: false,
+        }).use(markdownItTocDoneRight)
+        .use(markdownitMark)
+        .use(markdownitContainer, 'tips')
+        .use(markdownitContainer, 'warning')
+
+        var pageName = window.location.search
+            .substring(1).split('&')
+            .map(function(e) {
+                return e.split('=')
+            })
+            .filter(function(kv) {
+                return kv[0] === 'page'
+            })[0]
+        pageName = pageName ? '/docs/' + pageName[1] + '.md' : '/docs/index.md'
+
+        loadFile(pageName, function (data) {
+            if (pageName !== '/docs/index.md') {
+                document.getElementById('footer').style.display = 'block'
+            }
+            document.getElementById('article').innerHTML = md.render(data)
+            try {
+                document.title = document.getElementsByClassName('doc-title')[0].textContent
+            } catch (_) {}
+        }, function () {
+            document.getElementById('article').innerHTML = '<p style="text-align: center;">这个页面不存在QAQ</p>'
+            document.getElementById('footer').style.display = 'block'
+            document.title = '404'
+        })
+
+        function loadFile (path, fn, errfn) {
+            const request = new XMLHttpRequest()
+            request.open('get', path)
+            request.send(null)
+            request.onload = function () {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        fn(request.responseText)
+                    } else {
+                        console.warn('Load file ' + path + ' failed.')
+                        errfn()
+                    }
+                }
+            }
+        }
+        
     </script>
 </body>
 </html>
