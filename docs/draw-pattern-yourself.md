@@ -2,7 +2,7 @@
 自己制作图案
 </h1>
 
-如果你不喜欢现在已有的图案，可以在这个页面自己制作喜欢的图案。
+如果你不喜欢现在已有的图案，可以在[这个页面](https://fp.mengru.space/src/drawing-board.html)自己制作喜欢的图案。
 
 打开[这个页面](https://fp.mengru.space/src/drawing-board.html)，你会看到这样的界面：
 
@@ -31,7 +31,7 @@ const pattern = {
     turtle: ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","green","green","green","green","green","green","","","","green","green","gray","gray","green","green","gray","green","","green","gray","gray","green","green","gray","gray","green","green","green","green","gray","gray","green","green","gray","gray","green","green","green","","green","green","gray","gray","green","green","gray","green","","","","green","green","green","green","green","green","","","","","","","","","","","",""],
     star: ["","","","","gold","gold","","","","","","","","gold","gold","gold","gold","","","","","","","gold","gold","gold","gold","","","","","","gold","gold","gold","gold","gold","gold","","","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","","","gold","gold","gold","gold","gold","gold","","","","","","gold","gold","gold","gold","","","","","","","gold","gold","gold","gold","","","","","","","","gold","gold","","","",""],
     apple: ["","","","","black","black","","green","green","green","","","","","black","black","green","green","green","green","","tomato","tomato","tomato","black","black","tomato","green","green","","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","","","","","tomato","tomato","tomato","tomato","","",""],
-		// 在这里添加你自己的图案
+    // 在这里添加你自己的图案
 
 }
 ```
@@ -55,8 +55,8 @@ const pattern = {
     turtle: ["","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","","green","green","green","green","green","green","","","","green","green","gray","gray","green","green","gray","green","","green","gray","gray","green","green","gray","gray","green","green","green","green","gray","gray","green","green","gray","gray","green","green","green","","green","green","gray","gray","green","green","gray","green","","","","green","green","green","green","green","green","","","","","","","","","","","",""],
     star: ["","","","","gold","gold","","","","","","","","gold","gold","gold","gold","","","","","","","gold","gold","gold","gold","","","","","","gold","gold","gold","gold","gold","gold","","","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","gold","","","gold","gold","gold","gold","gold","gold","","","","","","gold","gold","gold","gold","","","","","","","gold","gold","gold","gold","","","","","","","","gold","gold","","","",""],
     apple: ["","","","","black","black","","green","green","green","","","","","black","black","green","green","green","green","","tomato","tomato","tomato","black","black","tomato","green","green","","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","","","","","tomato","tomato","tomato","tomato","","",""],
-		// 在这里添加你自己的图案
-		fruit: ["","","","","black","black","green","green","green","green","","","","","black","black","green","green","green","green","","tomato","tomato","tomato","black","black","tomato","green","green","","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","","","","","tomato","tomato","tomato","tomato","","",""],
+    // 在这里添加你自己的图案
+    fruit: ["","","","","black","black","green","green","green","green","","","","","black","black","green","green","green","green","","tomato","tomato","tomato","black","black","tomato","green","green","","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","","tomato","tomato","tomato","tomato","tomato","tomato","tomato","tomato","","","","","tomato","tomato","tomato","tomato","","",""],
 }
 ```
 
