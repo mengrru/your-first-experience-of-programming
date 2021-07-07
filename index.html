@@ -72,22 +72,76 @@
         .footer-link {
             color: #21618C;
         }
+        header {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+    <header id="header"></header>
     <article id="article">
     </article>
     <footer id="footer" style="display: none;">
         <a class="footer-link" href="/?page=index">返回首页</a>
     </footer>
     <script src="/docs/statics/markdown-it.js"></script>
-    <script src="/docs/statics/markdown-it-anchor.js"></script>
-    <script src="/docs/statics/markdown-it-toc-done-right.js"></script>
     <script src="/docs/statics/markdown-it-mark.js"></script>
     <script src="/docs/statics/markdown-it-container.js"></script>
+    <script>
+        // 兼容 IE
+        var userAgent = window.navigator.userAgent.toLowerCase()
+        if (userAgent.indexOf('trident') !== -1) {
+            document.getElementById('header').innerHTML = '<p style="text-align: center; padding-top: 20px;">你的浏览器版本太老了！可能无法完成本教程的学习。推荐你下载 Chrome 浏览器：<a href="https://www.google.cn/chrome/">点击这里进入 Chrome 官方下载页面</a></p>'
+            var md = markdownit({ html: true })
+            md.use(markdownitMark)
+            .use(markdownitContainer, 'tips')
+            .use(markdownitContainer, 'warning')
+
+            var pageName = window.location.search
+                .substring(1).split('&')
+                .map(function(e) {
+                    return e.split('=')
+                })
+                .filter(function(kv) {
+                    return kv[0] === 'page'
+                })[0]
+            pageName = pageName ? '/docs/' + pageName[1] + '.md' : '/docs/index.md'
+
+            loadFile(pageName, function (data) {
+                if (pageName !== '/docs/index.md') {
+                    document.getElementById('footer').style.display = 'block'
+                }
+                document.getElementById('article').innerHTML = md.render(data)
+                try {
+                    document.title = document.getElementsByClassName('doc-title')[0].textContent
+                } catch (_) {}
+            }, function () {
+                document.getElementById('article').innerHTML = '<p style="text-align: center;">这个页面不存在QAQ</p>'
+                document.getElementById('footer').style.display = 'block'
+                document.title = '404'
+            })
+        }
+        function loadFile (path, fn, errfn) {
+            const request = new XMLHttpRequest()
+            request.open('get', path)
+            request.send(null)
+            request.onload = function () {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        fn(request.responseText)
+                    } else {
+                        console.warn('Load file ' + path + ' failed.')
+                        errfn()
+                    }
+                }
+            }
+        }
+        
+    </script>
+    <script src="/docs/statics/markdown-it-anchor.js"></script>
+    <script src="/docs/statics/markdown-it-toc-done-right.js"></script>
     <script src="/docs/statics/highlight.min.js"></script>
     <script>
-        // window.location.href = './docs'
         var md = markdownit({
             html: true,
             highlight: function (str, lang) {
@@ -135,22 +189,6 @@
             document.title = '404'
         })
 
-        function loadFile (path, fn, errfn) {
-            const request = new XMLHttpRequest()
-            request.open('get', path)
-            request.send(null)
-            request.onload = function () {
-                if (request.readyState === 4) {
-                    if (request.status === 200) {
-                        fn(request.responseText)
-                    } else {
-                        console.warn('Load file ' + path + ' failed.')
-                        errfn()
-                    }
-                }
-            }
-        }
-        
     </script>
 </body>
 </html>
