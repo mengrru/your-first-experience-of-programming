@@ -59,7 +59,7 @@ let h = game.height
 
 ```jsx
 game.create.human(1, 1)
-// 在位置 x = 1, y = 1 创建一个可被控制的方块
+// 在位置 x = 1, y = 1 创建一个可被控制的积木
 ```
 
 **create.wall**
@@ -68,7 +68,7 @@ game.create.human(1, 1)
 
 ```jsx
 game.create.wall(1, 1)
-// 在位置 x = 1, y = 1 创建一个可被碰撞的方块
+// 在位置 x = 1, y = 1 创建一个可被碰撞的积木
 ```
 
 **create.air**
@@ -77,7 +77,7 @@ game.create.wall(1, 1)
 
 ```jsx
 game.create.air(1, 1)
-// 在位置 x = 1, y = 1 创建一个不会被碰撞的方块
+// 在位置 x = 1, y = 1 创建一个不会被碰撞的积木
 ```
 
 **grids.on**
@@ -114,12 +114,12 @@ game.over.lose()
 
 **iscollision**
 
-判断某个方块是否与其它 wall 类型的方块产生碰撞
+判断某个积木是否与其它 wall 类型的积木产生碰撞
 
 ```jsx
 let human = game.create.human(1, 1)
 let result = game.iscollision(human)
-// 判断 human 是否与其它 wall 类型的方块产生了碰撞
+// 判断 human 是否与其它 wall 类型的积木产生了碰撞
 // result 是 true 或 false
 ```
 
