@@ -775,3 +775,10 @@ human.move.after = function() {
 - [发布你的游戏](/?page=publish-your-game)
 - [Q&A](/?page=q-and-a)
 - [后记](/?page=postscript)
+
+# 留言板
+
+如果你有任何问题、建议或者想法可以在这个[留言板](https://my.cbox.ws/first-programming)中留言，或是发邮件到 [Q&A 页面](/?page=q-and-a) 的邮箱中。
+
+<!-- <iframe src="https://www6.cbox.ws/box/?boxid=867094&boxtag=26LAUG" width="100%" height="250" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>	
+-->
