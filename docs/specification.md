@@ -422,6 +422,7 @@ block.automove.left(10, 1)
 
 block.automove.left(10, 3, true)
 // 让积木以速度3，先向左移动10个格，再返回，如此往复
+// 这个动作本身就是带有使积木一往复移动的功能的，但默认是关闭的，在最后写 true 可以打开这个功能
 ```
 
 **automove.right**

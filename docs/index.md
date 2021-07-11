@@ -19,11 +19,11 @@ $<toc{"containerId":"header-toc"}>
 
 # 准备工作
 
-首先，确保你有一台电脑。电脑的操作系统可以是 Windows 、MacOS或 Linux，总之，只要里面有浏览器和记事本（文本编辑器）就可以。
+首先，确保你有一台电脑。电脑的操作系统可以是 Windows 、MacOS 或 Linux，总之，只要里面有浏览器和记事本（文本编辑器）就可以。
 
 ## 1. 下载压缩文件并解压
 
-[点击这里](https://rru.oss-cn-beijing.aliyuncs.com/fp/your-first-experience-of-programming-main.zip)下载压缩文件 ==your-first-experience-of-programming-main.zip== 到桌面，然后右键点击该压缩文件，选择 解压到当前文件夹。
+[点击这里](https://rru.oss-cn-beijing.aliyuncs.com/fp/your-first-experience-of-programming-main.zip)下载压缩文件 ==your-first-experience-of-programming-main.zip== 到桌面，然后右键点击该压缩文件，选择 解压到当前文件夹。（如果你使用的是苹果电脑，假如在解压时遇到了问题，可以[点这里](/?page=q-and-a#q%3A-%E6%88%91%E6%98%AF%E8%8B%B9%E6%9E%9C%E7%94%B5%E8%84%91%EF%BC%8C%E8%AF%A5%E6%80%8E%E4%B9%88%E8%A7%A3%E5%8E%8B%E5%8E%8B%E7%BC%A9%E6%96%87%E4%BB%B6%E5%91%A2%EF%BC%9F)寻找解决方法）
 
 此时桌面上会出现一个名为 ==your-first-experience-of-programming-main== 的文件夹，双击打开这个文件夹，你会看到里面大概长这样：
 
