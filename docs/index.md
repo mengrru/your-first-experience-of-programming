@@ -43,7 +43,11 @@ $<toc{"containerId":"header-toc"}>
 如果你是 Windows 系统，请**不要**使用 IE 浏览器和 Opera Mini 浏览器。你可以选择使用 win10 自带的 Edge 浏览器，或自己下载的 Chrome 浏览器、百度浏览器、QQ 浏览器、Firefox 浏览器、搜狗高速浏览器等等。
 :::
 
-用浏览器打开 ==my-game.html== 后，接着再次右键单击 ==my-game.html== ，在 ==打开方式== 中选择 ==记事本== ，你会在打开的记事本中看到：
+用浏览器打开 ==my-game.html== 后，你会看到页面中有个浅灰色的方框，它是游戏显示区域，我们之后所编写的小游戏会显示在这里：
+
+![0.2](https://rru.oss-cn-beijing.aliyuncs.com/fp/0.2.PNG)
+
+接着再次右键单击 ==my-game.html== ，在 ==打开方式== 中选择 ==记事本== ，你会在打开的记事本中看到：
 
 ```html
 <!DOCTYPE html>
@@ -181,7 +185,7 @@ let mygame = new Game(width, height, 2)
 于是我们可以分别通过下面的代码来创建人类型的积木、墙类型的积木和空气类型的积木：
 
 ```jsx
-let human = mygame.create.humsn() // 创建一个人类型的积木，它可以被操纵
+let human = mygame.create.human() // 创建一个人类型的积木，它可以被操纵
 let wall = mygame.create.wall() // 创建一个墙类型的积木，它无法被人穿越
 let air = mygame.create.air() // 创建一个空气类型的积木，它可以被人穿越
 ```
