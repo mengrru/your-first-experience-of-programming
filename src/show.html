@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="edit-area">
+        <p>在此粘贴你的代码（必须将代码中所有的中文注释去掉）：</p>
+        <textarea name="code" id="code-text" cols="30" rows="10"></textarea>
+        <p>在此粘贴 pattern.js 中的代码：
+            <br />
+            1. 如果你没创建新的图案这里可以留空；
+            <br />
+            2. 必须将代码中所有的中文注释去掉；
+            <br />
+            3. 最好将没有用到的图案删掉，防止生成的网址过长浏览器无法打开
+        </p>
+        <textarea name="pattern" id="pattern-text" cols="30" rows="10"></textarea>
+        <br />
+        <button id="preview-btn">预览</button>
+        <br />
+        <br />
+    </div>
+    <canvas id="app" style="border: 1px solid #eee"></canvas>
+    <div id="url-area" style="display: none;">
+        你的游戏预览地址（已自动复制到你的剪贴板）：
+        <br />
+        <textarea name="" id="url-text" cols="30" rows="10"></textarea>
+        <br />
+        由于网址较长，在发送给他人前可以使用这个短网址生成器缩短这个网址：
+        <a href="https://ddl.ink/">https://ddl.ink/</a>
+    </div>
+    <script>
+        var query = {}
+
+        window.location.search
+            .substring(1)
+            .split('&')
+            .map(function (q) {
+                return q.split(':')
+            })
+            .reduce(function (acc, curVal) {
+                acc[curVal[0]] = curVal[1]
+                return acc
+            }, query)
+
+        var $userCode = document.getElementById('code-text')
+        var $userPattern = document.getElementById('pattern-text')
+        var $previewBtn = document.getElementById('preview-btn')
+
+        var $editArea = document.getElementById('edit-area')
+        var $urlArea = document.getElementById('url-area')
+
+        var userCode
+        var userPattern
+
+        if (query.code) {
+            $editArea.style.display = 'none'
+            $urlArea.style.display = 'none'
+            evalCode(atob(query.code), atob(query.pattern))
+        }
+        $previewBtn.onclick = function () {
+            var userCode = $userCode.value
+            var userPattern = $userPattern.value
+            evalCode(userCode, userPattern)
+            var $urlText = document.getElementById('url-text')
+            var prefix = window.location.origin + window.location.pathname
+            try {
+                $urlText.value = prefix + '?' + 'pattern:' + btoa(userPattern) + '&code:' + btoa(userCode)
+                $urlArea.style.display = 'block'
+                $urlText.select()
+                document.execCommand('copy')
+            } catch (_) {
+                alert('你粘贴的代码中含有中文，需要删掉')
+            }
+        }
+
+        function evalCode (userCode, patternCode) {
+            if (!patternCode || patternCode === 'undefined') {
+                loadFile('./index.js', function (indexCode) {
+                    loadFile('./pattern.js', function (patternCode) {
+                        evalUserCode(patternCode + '\r' + indexCode + '\r' + userCode)
+                    })
+                })
+            } else {
+                try {
+                    eval(patternCode)
+                    loadFile('./index.js', function (indexCode) {
+                        evalUserCode(patternCode + '\r' + indexCode + '\r' + userCode)
+                    })
+                } catch (_) {
+                    alert('图案载入错误quq')
+                }
+            }
+        }
+        function evalUserCode (userCode) {
+            try {
+                eval(userCode)
+            } catch (_) {
+                alert('代码运行错误quq')
+            }
+        }
+        function loadFile (path, fn, err) {
+            var request = new XMLHttpRequest()
+            request.open('get', path)
+            request.send(null)
+            request.onload = function () {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        fn(request.responseText)
+                    } else {
+                        err()
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

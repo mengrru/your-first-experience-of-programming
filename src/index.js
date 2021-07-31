@@ -126,7 +126,7 @@ class Game {
         ctx.fillStyle = '#fff'
         ctx.fillRect(0, 0, cw, ch)
         this.blocks.forEach(b => {
-            const style = pattern[b.style] || b.style
+            const style = (pattern && pattern[b.style]) || b.style
             if (typeof style === 'string') {
                 ctx.fillStyle = style
                 ctx.fillRect(b.x * bw, ch - bw * b.height - b.y * bw, bw * b.width, bw * b.height)

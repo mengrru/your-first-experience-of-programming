@@ -5,6 +5,11 @@
     <a class="github-button" style="font-size: 14px;" href="https://github.com/mengrru/your-first-experience-of-programming">Star on Github</a>
 </h1>
 
+最近更新：
+- [发布你的游戏](/?page=publish-your-game) \(2021.7.31\)
+
+---
+
 $<toc{"containerId":"header-toc"}>
 
 # 欢迎！
