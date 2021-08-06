@@ -683,7 +683,7 @@ stone.automove.right(16, 1, true)
 
 前文提到，这样的现象在计算机中需要通过模拟摩擦力去实现，但若我们在此真的通过模拟摩擦力去解决，未免太过复杂，因为我们所需要的仅仅是希望 **当人站在这块石头上后能在这块石头移动时一同移动** 罢了。我们可以仅仅着眼于这一个单一的需求，而不考虑人站在其它石头上是否能达到同样的效果。
 
-根据这个需求，我们来分析小人儿从跳跃至石头上到从石头上下来到达终点的整个流程：
+根据这个需求，我们来整理玩家操纵小人儿从跳跃至石头上到从石头上下来到达终点的整个流程：
 
 ![https://rru.oss-cn-beijing.aliyuncs.com/fp/6.1.PNG](https://rru.oss-cn-beijing.aliyuncs.com/fp/6.1.PNG)
 
@@ -697,13 +697,17 @@ stone.automove.right(16, 1, true)
 
 我们将上述流程图实现为伪代码：
 
-```jsx
+```js
+// stone.move.after 函数实现了上图中的
+// 石头移动一下 -> 小人儿跟着石头移动一下
 stone.move.after = function() {
     if (小人儿与石头正接触着) {
         human.x = stone.x
         human.y = stone.y + 1
     }
 }
+// human.move.after 函数实现了上图中的
+// 通过询问小人儿与石头是否接触，来变更“小人与石头是否接触”这一状态
 human.move.after = function() {
     if (human.istouched(stone)) {
         标记小人儿的状态为：正在与石头接触
