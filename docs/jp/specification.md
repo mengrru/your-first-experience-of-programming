@@ -248,9 +248,7 @@ let wall = game.create.wall(<位置x>, <位置y>)
 
 ==可以读取== 不可修改
 
-标识该积木的类型，在 wall 积木里，它是 'wall'
-
-ブロックのタイプを識別する。壁ブロックでは「wall」だ
+ブロックのタイプを識別する。wall ブロックでは「wall」だ
 
 ```jsx
 let type = wall.blocktype
@@ -269,9 +267,7 @@ let air = game.create.air(<位置x>, <位置y>)
 
 ==可以读取== 不可修改
 
-标识该积木的类型，在 air 积木里，它是 'air'
-
-ブロックのタイプを識別する。空気ブロックでは「air」だ。
+ブロックのタイプを識別する。air ブロックでは「air」だ。
 
 ```jsx
 let type = wall.blocktype
