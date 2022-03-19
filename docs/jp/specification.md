@@ -14,7 +14,7 @@ let game = new Game(<幅>, <高さ>, <倍率>)
 let game = new Game(30, 18, 1)
 ```
 
-上記のコードによって生成されたゲームインターフェイスの座標系：
+上記のコードによって生成されたゲーム画面の座標系：
 
 ![https://rru.oss-cn-beijing.aliyuncs.com/fp/grids.PNG](https://rru.oss-cn-beijing.aliyuncs.com/fp/grids.PNG)
 
@@ -22,20 +22,20 @@ let game = new Game(30, 18, 1)
 
 **gravity**
 
-==読み取られて== ==変更できる==
+==読み取られて== ==変更される==
 
 ゲームに重力を設定する
 
 ```jsx
 game.gravity = true // 重力をオンにする
-game.gravity = false // 关闭重力
+game.gravity = false // 重力をオフにする
 ```
 
 **width**
 
-==読み取られるが== 変更できない
+==読み取られるが== 変更されない
 
-ゲームインターフェースの幅
+ゲーム画面の幅
 
 ```jsx
 let w = game.width
@@ -43,9 +43,9 @@ let w = game.width
 
 **height**
 
-==読み取られるが== 変更できない
+==読み取られるが== 変更されない
 
-ゲームインターフェイスの高さ
+ゲーム画面の高さ
 
 ```jsx
 let h = game.height
@@ -55,29 +55,29 @@ let h = game.height
 
 **create.human**
 
-操られるブロックを作る
+制御可能なブロックを作る
 
 ```jsx
 game.create.human(1, 1)
-// x=1、y=1に操られるブロックを作成する
+// x=1、y=1に制御可能なブロックを作成する
 ```
 
 **create.wall**
 
-触れるブロックを作成する
+通過できるブロックを作成する
 
 ```jsx
 game.create.wall(1, 1)
-// x = 1, y = 1に触れるブロックを作成する
+// x = 1, y = 1に通過できるブロックを作成する
 ```
 
 **create.air**
 
-触れないブロックを作成する
+通過できないブロックを作成する
 
 ```jsx
 game.create.air(1, 1)
-// x = 1, y = 1に触れないブロックを作成する
+// x = 1, y = 1に通過できないブロックを作成する
 ```
 
 **grids.on**
@@ -106,7 +106,7 @@ game.over.win()
 
 **over.lose**
 
-ゲームを終了し、プレーヤーが負けたことを宣言する
+ゲームを終了し、プレーヤーの負けを宣言する
 
 ```jsx
 game.over.lose()
@@ -114,12 +114,12 @@ game.over.lose()
 
 **iscollision**
 
-ブロックが他の壁タイプのブロックと衝突するかどうかを判断する
+ブロックが他のwallタイプのブロックと衝突するかどうかを判断する
 
 ```jsx
 let human = game.create.human(1, 1)
 let result = game.iscollision(human)
-// humanが他の壁タイプのブロックと衝突したかどうかを判断する
+// humanが他のwallタイプのブロックと衝突したかどうかを判断する
 // 結果はtrueまたはfalse
 ```
 
@@ -133,9 +133,9 @@ let human = game.create.human(<位置x>, <位置y>)
 
 **blocktype**
 
-==読み取られるが== 変更できない
+==読み取られるが== 変更されない
 
-ブロックのタイプを識別する。 human のブロックでは 'human' だ。
+ブロックのタイプを識別する。 human ブロックでは 'human' だ。
 
 ```jsx
 let type = human.blocktype
@@ -144,47 +144,47 @@ let type = human.blocktype
 
 **key.left**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 ブロックを左に移動するようにトリガーボタンを設定する。初期設定は 'a' だが、 'left' にしてもいい
 
 ```jsx
-human.key.left = 'left' // 箭头左按键
+human.key.left = 'left' // キーの左矢印のボタン
 ```
 
 **key.right**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 ブロックを右に移動するようにトリガーボタンを設定する。初期設定は 'd' だが、'right' にしてもいい　
 
 ```jsx
-human.key.right = 'right' // 箭头右按键
+human.key.right = 'right' // キーの右矢印のボタン
 ```
 
 **key.up**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 ブロックを上に移動するようにトリガーボタンを設定する。初期設定は 'w' だが、 'up' にしてもいい
 
 ```jsx
-human.key.up = 'up' // 箭头上按键
+human.key.up = 'up' // キーの上矢印のボタン
 ```
 
 **key.down**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 ブロックを下に移動するようにトリガーボタンを設定する。初期設定は 's' だが、 'down' にしてもいい
 
 ```jsx
-human.key.down = 'down' // 箭头下按键
+human.key.down = 'down' // キーの下矢印のボタン
 ```
 
 **strength**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 ブロックのジャンプの高さを設定する。範囲は1〜8で、初期設定は3
 
@@ -194,9 +194,9 @@ human.strength = 4
 
 **lastmove**
 
-==可以读取== 不可修改
+==読み取られるが== 変更されない
 
-ブロックの最後の動きの方向を取得します。おそらく 'right' または 'left' または 'up' または 'down' です。
+ブロックの最後の動きの方向を取得する。おそらく 'right' または 'left' または 'up' または 'down' 。
 
 ```jsx
 let last = human.lastmove
@@ -246,7 +246,7 @@ let wall = game.create.wall(<位置x>, <位置y>)
 
 **blocktype**
 
-==可以读取== 不可修改
+==読み取られるが== 変更されない
 
 ブロックのタイプを識別する。wall ブロックでは「wall」だ
 
@@ -265,7 +265,7 @@ let air = game.create.air(<位置x>, <位置y>)
 
 **blocktype**
 
-==可以读取== 不可修改
+==読み取られるが== 変更されない
 
 ブロックのタイプを識別する。air ブロックでは「air」だ。
 
@@ -284,7 +284,7 @@ let block = game.create.human(1, 1)
 
 **x**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 ブロックの位置を表す横座標
 
@@ -294,7 +294,7 @@ block.x = 2
 
 **y**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 ブロックの位置を表す縦座標
 
@@ -304,7 +304,7 @@ block.y = 2
 
 **lastx**
 
-==可以读取== 不可修改
+==読み取られるが== 変更されない
 
 ブロックが最後にとどまった位置を示す横座標
 
@@ -314,7 +314,7 @@ let lastx = block.lastx
 
 **lasty**
 
-==可以读取== 不可修改
+==読み取られるが== 変更されない
 
 ブロックが最後にとどまった位置を示す縦座標
 
@@ -324,7 +324,7 @@ let lasty = block.lasty
 
 **style**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 パターンの様式を指定する
 
@@ -334,7 +334,7 @@ block.style = pattern.human
 
 **removed**
 
-==可以读取== 不可修改
+==読み取られるが== 変更されない
 
 ブロックが削除されたかどうかを識別する
 
@@ -347,7 +347,7 @@ block.removed // true
 
 **move.before**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 ブロックが移動する前に実行するアクションを指定する
 
@@ -359,7 +359,7 @@ block.move.before = function () {
 
 **move.after**
 
-==可以读取== ==可以修改==
+==読み取られて== ==変更される==
 
 ブロックが移動した後に実行するアクションを指定する
 
@@ -381,7 +381,7 @@ block.stop()
 
 **remove**
 
-ゲームインターフェイスからブロックを削除する
+ゲームインターフェイスからブロックを削除
 
 ```jsx
 block.remove()
@@ -389,7 +389,7 @@ block.remove()
 
 **istouched**
 
-ブロックが前・後ろ・左・右で他のブロックと接触しているかどうかを確認する
+ブロックが前・後ろ・左・右で他のブロックと接触しているかどうかを確認
 
 ```jsx
 let block = game.create.human(1, 1)
@@ -401,7 +401,7 @@ block.istouched(block2) // true
 
 **isoverlapping**
 
-他のブロックとオーバーラップしているかどうかを判断する
+他のブロックと重ねているかどうかを判断する
 
 ```jsx
 let block = game.create.human(1, 1)
