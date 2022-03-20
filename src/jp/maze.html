@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>迷宮</title>
+</head>
+<body>
+    <canvas id="app"></canvas>
+    <script src="./index.js"></script>
+    <script src="./pattern.js"></script>
+    <script>
+        let width = 41
+        let height = 31
+        let game = new Game(width, height, 1)
+        game.gravity = false
+
+        function rand (n) {
+            return Math.floor(Math.random() * n)
+        }
+        // X Y means row and col from 0
+        function NtoXY (n) {
+            return [Math.floor(n / width), n % width]
+        }
+        function XYtoN ([x, y]) {
+            return x * width + y
+        }
+        // return true if n is an odd, else return false
+        function isOdd (n) {
+            return n % 2 == 1
+        }
+
+        let len = width * height
+        let mazeData = Array(len).fill([0, 'grey'])
+        let origin = [1, 1]
+
+        // init maze like
+        // 0 0 0 0 0 0 0
+        // 0 1 0 1 0 1 0
+        // 0 0 0 0 0 0 0
+        // 0 1 0 1 0 1 0
+        // 0 0 0 0 0 0 0
+        // 0 1 0 1 0 1 0
+        // 0 0 0 0 0 0 0
+        for (let i = 0; i < len; i++) {
+            let [x, y] = NtoXY(i)
+            if (isOdd(x) && isOdd(y)) {
+                mazeData[i] = [1, 'yellow']
+            }
+        }
+
+        // a sample algorithm of maze generation
+        // you can find details in this webpage https://zhuanlan.zhihu.com/p/27381213
+        function genMaze () {
+            let direction = [[0, 1], [0, -1], [1, 0], [-1, 0]]
+            let dfs = function (origin) {
+                let alternative = []
+                let [ox, oy] = origin
+                for (let d of direction) {
+                    if (ox + d[0] > 0 && ox + d[0] < height - 1
+                        && oy + d[1] > 0 && oy + d[1] < width - 1) {
+                        let nx = ox + d[0]
+                        let ny = oy + d[1]
+                        let i = XYtoN([nx, ny])
+                        if (mazeData[i][0] == 0 && mazeData[i][1] == 'grey') {
+                            alternative.push(d)
+                            mazeData[i] = [0, 'blue']
+                        }
+                    }
+                }
+                if (alternative.length == 0) {
+                    return
+                }
+                let l = alternative.length
+                for (let i = 0; i < l; i++) {
+                    let randNumber = rand(alternative.length)
+                    let selectedDirection = alternative[randNumber]
+                    let selectedBlue = [
+                        ox + selectedDirection[0],
+                        oy + selectedDirection[1]
+                    ]
+                    let selectedYellow = [
+                        selectedBlue[0] + selectedDirection[0],
+                        selectedBlue[1] + selectedDirection[1]
+                    ]
+                    let yellowData = mazeData[XYtoN(selectedYellow)]
+                    if (yellowData[0] == 1 && yellowData[1] == 'yellow') {
+                        mazeData[XYtoN(selectedYellow)] = [1, 'red']
+                        mazeData[XYtoN(selectedBlue)] = [0, 'red']
+                        dfs(selectedYellow)
+                    } else {
+                        mazeData[XYtoN(selectedBlue)] = [0, 'grey']
+                    }
+                    alternative.splice(randNumber, 1)
+                }
+            }
+            mazeData[XYtoN(origin)] = [1, 'red']
+            dfs(origin)
+        }
+
+        genMaze()
+
+        for (let i = 0; i < len; i++) {
+            let [x, y] = NtoXY(i)
+            let gridData = mazeData[i]
+            let grid = gridData[1] == 'red' ? game.create.air(y, x) : game.create.wall(y, x)
+            grid.style = gridData[1] == 'red' ? pattern.eee : pattern.aaa
+        }
+        let human = game.create.human(origin[0], origin[1])
+        let destination = game.create.air(width - 2, height - 2)
+        destination.style = pattern.star
+        human.move.after = function () {
+            if (human.x == destination.x && human.y == destination.y) {
+                game.over.win()
+            }
+        }
+
+    </script>
+</body>
+</html>

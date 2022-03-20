@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ヘビゲーム</title>
+</head>
+<body>
+    <canvas id="app"></canvas>
+    <script src="./index.js"></script>
+    <script src="./pattern.js"></script>
+    <script>
+        let width = 20
+        let height = 30
+        let game = new Game(width, height, 2)
+
+        // ヘビゲームに重力は要らないので、オフにしてください
+        game.gravity = false
+
+        // 背景を生成する
+        for (let i = 0; i < width; i++) {
+            for (let j = 0; j < height; j++) {
+                game.create.air(i, j)
+            }
+        }
+
+        // 壁を生成する
+        for (let i = 0; i < width; i++) {
+            game.create.wall(i, 0)
+            game.create.wall(i, height - 1)
+        }
+        for (let i = 0; i < height; i++) {
+            game.create.wall(0, i)
+            game.create.wall(width - 1, i)
+        }
+
+        // ランダム関数、[2, n - 3] の間のランダムな数が得られる
+        function rand (n) {
+            return Math.ceil(Math.random() * (n - 4)) + 1
+        }
+
+        //ランダムな場所にヘビの頭を作成する
+        let head = game.create.human(rand(width), rand(height))
+        head.style = pattern.teal
+
+        // ランダムな場所にリンゴを作成する
+        let apple = game.create.air(rand(width), rand(height))
+        apple.style = pattern.apple
+
+        // ヘビの体を格納するためにアレイを作成する
+        let body = []
+
+        // ヘビの頭が動いたら、ヘビの頭がリンゴを食べたかどうかを確認する
+        // リンゴを食べたら、ヘビの体の一部を作ってリンゴの位置をリセットする
+        // ヘビに体がある場合は、ヘビの体の頭から最も遠い部分の位置を、頭が最後にあった位置に変更する
+        head.move.after = function () {
+            if (head.x == apple.x && head.y == apple.y) {
+                let newBody = game.create.air(head.x, head.y)
+                newBody.style = pattern.teal
+                body.push(newBody)
+                apple.x = rand(width)
+                apple.y = rand(height)
+            }
+            if (body.length != 0) {
+                let tail = body.shift()
+                body.push(tail)
+                tail.x = head.lastx
+                tail.y = head.lasty
+            }
+        }
+
+        // ヘビの頭を500ミリ秒（0.5秒）ごとに頭を向く方向に自動的に移動する
+        // ヘビの頭が壁にぶつかると、ゲームが終了
+        let run = setInterval(function () {
+            head.go[head.lastmove || 'right']()
+            if (game.iscollision(head)) {
+                game.over.lose()
+                clearInterval(run)
+            }
+        }, 500)
+    </script>
+</body>
+</html>
