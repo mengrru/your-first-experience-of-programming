@@ -803,6 +803,10 @@ human.move.after = function() {
 - [Q&A](/?page=q-and-a)
 - [后记](/?page=postscript)
 
+# 其它语言
+
+- [日文版 - 译者：IT視界](https://zenn.dev/takahashi112211/articles/e3f3f7d8c3cd1a?fbclid=IwAR1a_buXRVCkjd7Rle4Rn8XmTvgmrgDlKOxs4kPXA188NHKGEmzMttqTSqo)
+
 # 留言板
 
 如果你有任何问题、建议或者想法可以在这个[留言板](https://my.cbox.ws/first-programming)中留言，或是发邮件到 [Q&A 页面](/?page=q-and-a) 的邮箱中。
